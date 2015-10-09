@@ -37,8 +37,9 @@ create table contacts (
        BusinessZip text
 );
 
-COPY registrations FROM 'C:\cygwin64\home\ziggy\code\hpd\data\registrations\Registrations20151001\Registration20150930.txt'  (DELIMITER '|',   FORMAT CSV, HEADER TRUE) ;
+-- these paths need to be updated
+COPY registrations FROM 'Registration20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE) ;
 
-COPY contacts FROM 'C:\cygwin64\home\ziggy\code\hpd\data\registrations\Registrations20151001\RegistrationContact20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
+COPY contacts FROM 'RegistrationContact20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
 
 COMMIT;
