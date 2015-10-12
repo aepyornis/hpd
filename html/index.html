@@ -9,27 +9,32 @@
 
      <!-- Data Tables CSS -->
      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
-     
+     <!-- Data Tables SELECT extension  css -->
+     <link rel="stylesheet" href="https://cdn.datatables.net/select/1.0.1/css/select.dataTables.min.css">
      <link rel="stylesheet" href="css/main.css">
      
   </head>
   <body>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <!-- SELECT extension for datatables -->
+    <script src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script>
     <script src="js/main.js"></script>
 
             <h1>Corporate Owners</h1>
 
+            <div class="table-wrapper">
             <table id="top500-table" class="display" cellspacing="0">
-        <thead>
-            <tr>
-                <th>Address</th>
-                <th>Zip</th>
-                <th>Number of buildings</th>
-                
-        </thead>
-     </table>
+              <thead>
+                <tr>
+                  <th>Address</th>
+                  <th>Zip</th>
+                  <th>Number of buildings</th>
+               </tr> 
+              </thead>
+            </table>
+            </div>
             
   </body>
 </html>
