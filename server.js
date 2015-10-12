@@ -1,6 +1,8 @@
 var restify = require('restify');
 var fs = require('fs');
+var _ = require('lodash');
 var pg = require('pg');
+
 
 var conString = "postgres://mrbuttons@localhost/hpd";
 
@@ -31,7 +33,7 @@ server.get('/top500', function(req, res, next){
 
 server.get('/id/:id', function(req, res, next){
   get_corporate_names(req.params.id, function(result){
-    res.send(result);
+    res.send(unique_names(result));
     next();
   });
 });
@@ -65,10 +67,17 @@ function get_corporate_names(id, callback) {
         callback(null);
       } else {
         //callback with results
-        callback(result.rows[0]);
+        callback(result);
       }
       done();
     });
   });
+}
+
+//input: postgres result (object)
+//output:unique names list (array)
+function unique_names(result) {
+  var names = result.rows[0].corporationnames;
+  return _.uniq(names);
 }
 
