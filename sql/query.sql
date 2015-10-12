@@ -144,7 +144,7 @@ SELECT c.BusinessHouseNumber,
        c.BusinessStreetName,
        c.BusinessZip,
        c.BusinessApartment,
-       count(*) as numberOfContacts,
+       count (*) as numberOfContacts,
        array_remove(array_agg(c.CorporationName), NULL) as list_of_names,
        array_agg(r.info) as info
 FROM contacts as c
@@ -156,3 +156,48 @@ GROUP BY c.BusinessHouseNumber, c.BusinessStreetName, c.BusinessZip, c.BusinessA
 ORDER BY numberOfContacts DESC;
 
 
+SELECT BusinessHouseNumber,
+       BusinessStreetName,
+       BusinessZip,
+       BusinessApartment,
+       count (*) as numberOfContacts,
+       array_remove(array_agg(CorporationName), NULL) as corporationnames,
+       array_agg(registrationID) as regids
+FROM contacts
+WHERE
+(BusinessHouseNumber IS NOT NULL AND BusinessStreetName IS NOT NULL AND  BusinessZip IS NOT NULL)
+AND (registrationcontacttype = 'CorporateOwner')
+GROUP BY BusinessHouseNumber, BusinessStreetName, BusinessZip, BusinessApartment
+
+ORDER BY numberOfContacts DESC
+
+
+create table corporate_owners AS (
+SELECT BusinessHouseNumber,
+      BusinessStreetName,
+      BusinessZip,
+      BusinessApartment,
+      count (*) as numberOfContacts,
+      array_remove(array_agg(CorporationName), NULL) as corporationnames,
+      array_agg(registrationID) as regids
+FROM contacts
+WHERE
+        (BusinessHouseNumber IS NOT NULL AND BusinessStreetName IS NOT NULL AND  BusinessZip IS NOT NULL)
+                     AND (registrationcontacttype = 'CorporateOwner')
+GROUP BY BusinessHouseNumber, BusinessStreetName, BusinessZip, BusinessApartment
+)
+
+
+COPY 
+(SELECT c.BusinessHouseNumber,
+       c.BusinessStreetName,
+       c.BusinessZip,
+       c.BusinessApartment,
+       count (*) as numberOfContacts,
+       array_remove(array_agg(c.businessCity), NULL) as list_of_city
+FROM contacts2 as c
+WHERE
+(BusinessHouseNumber IS NOT NULL AND BusinessStreetName IS NOT NULL AND  BusinessZip IS NOT NULL)
+AND (registrationcontacttype = 'CorporateOwner')
+GROUP BY c.BusinessHouseNumber, c.BusinessStreetName, c.BusinessZip, c.BusinessApartment
+ORDER BY numberOfContacts DESC LIMIT 1000) to '/Users/zy/code/hpd/city_test.csv' CSV HEADER;
