@@ -8,7 +8,7 @@ var conString = "postgres://mrbuttons@localhost/hpd";
 
 var client = new pg.Client(conString);
 
-var query = 'SELECT businesshousenumber as h, businessstreetname as st, businesszip as zip, numberofcontacts as num, id FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500';
+var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
 var fileName = 'top500.txt';
 
