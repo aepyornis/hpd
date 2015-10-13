@@ -33,6 +33,12 @@ server.get('/id/corpnames/:id', function(req, res, next){
   });
 });
 
+server.get('/id/buildings/:id', function(req, res, next){
+  get_buildings_by_id(req.params.id, function(result){
+    res.send(result.rows);
+  });
+});
+
 //serves static files from html folder
 server.get(/.*/, restify.serveStatic({
   'directory': __dirname + '/html',
@@ -53,6 +59,12 @@ function get_corporate_names(id, callback) {
   do_query(query, a, callback);
 }
 
+function get_buildings_by_id(id, callback) {
+  var query = "SELECT corporate_owner.regid, r.housenumber, r.streetname, r.zip, r.boro FROM (SELECT DISTINCT unnest(regids) as regid FROM corporate_owners WHERE id =$1) as corporate_owner JOIN registrations as r on corporate_owner.regid = r.registrationid;"
+  var a = [];
+  a.push(Number(id));
+  do_query(query, a, callback);
+}
 
 
 
