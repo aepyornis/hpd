@@ -21,4 +21,11 @@ UPDATE corporate_owners SET id = DEFAULT;
 
 ALTER TABLE corporate_owners ADD PRIMARY KEY (id);
 
+ALTER TABLE corporate_owners ADD COLUMN uniqnames text[];
+
+UPDATE corporate_owners SET uniqnames = corporationnames;
+
+-- there appears to be at least row that causes an error with anyarray_unique, which is 'fixed' by the WHERE clause here.
+UPDATE corporate_owners SET uniqnames = anyarray_uniq(corporationnames) WHERE array_length(corporationnames, 1) > 0;
+
 COMMIT;

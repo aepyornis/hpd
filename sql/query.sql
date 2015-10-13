@@ -201,3 +201,9 @@ WHERE
 AND (registrationcontacttype = 'CorporateOwner')
 GROUP BY c.BusinessHouseNumber, c.BusinessStreetName, c.BusinessZip, c.BusinessApartment
 ORDER BY numberOfContacts DESC LIMIT 1000) to '/Users/zy/code/hpd/city_test.csv' CSV HEADER;
+
+ALTER TABLE corporate_owners ADD COLUMN uniqnames text[]
+
+UPDATE corporate_owners SET uniqnames = corporationnames;
+UPDATE corporate_owners SET uniqnames = anyarray_uniq(corporationnames) WHERE array_length(corporationnames, 1) > 0;
+
