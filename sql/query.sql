@@ -207,3 +207,19 @@ ALTER TABLE corporate_owners ADD COLUMN uniqnames text[]
 UPDATE corporate_owners SET uniqnames = corporationnames;
 UPDATE corporate_owners SET uniqnames = anyarray_uniq(corporationnames) WHERE array_length(corporationnames, 1) > 0;
 
+
+
+SELECT regids FROM corporate_owners WHERE id = 40182;
+
+SELECT unnest(regids) as regids FROM corporate_owners WHERE id = 40182;
+
+SELECT corporate_owner.regid, r.housenumber, r.streetname, r.zip, r.boro FROM (SELECT DISTINCT unnest(regids) as regid FROM corporate_owners WHERE id = 40182) as corporate_owner JOIN registrations as r on corporate_owner.regid = r.registrationid;
+
+
+SELECT id where $1 = ANY(uniqnames)
+
+-- uniq
+CREATE VIEW unique_names AS SELECT UNNEST(uniqnames), id FROM corporate_owners;
+
+SELECT * FROM (SELECT UNNEST(uniqnames) as corpname, id FROM corporate_owners) as x WHERE x.corpname ilike '%gotham%'
+

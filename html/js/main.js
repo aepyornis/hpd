@@ -29,12 +29,32 @@ $(document).ready(function() {
    });
 });
 
-// gets list of corporation for selected corporate address
+function search_corp_name(name) {
+  get_id_from_corp_name(name)
+    .done(corp_lookup_action)
+    .fail(ajax_fail);
+}
+
+// str -> promise
+function get_id_from_corp_name (name) {
+  var url = '/corplookup/' + name;
+  return $.ajax({
+    url: url,
+    type: 'GET'
+  });
+}
+
+function corp_lookup_action(ajax_data) {
+  console.log(ajax_data);
+}
+
+
+// GETS list of corporation for selected corporate address
 // takes the 'id' of the selected row, does ajax request to /id/:id, and replaces html of div#corporation-names with new html
 function corporation_names(id) {
     get_corporation_names(id)
     .done(insert_names)
-    .fail(insert_names_fail);
+    .fail(ajax_fail);
 }
 
 // these functions for corporation_names() follow this pattern:
@@ -48,7 +68,7 @@ function insert_names(ajax_response_data) {
 }
 
 // -> logs to console
-function insert_names_fail() {
+function ajax_fail() {
   console.error('AJAX FAIL :( :(');
 }
 

@@ -6,30 +6,31 @@
      <title>Registered Corporate Owners </title>
      <meta name="description" content="">
      <meta name="viewport" content="width=device-width, initial-scale=1">
-
-     <!-- Data Tables CSS -->
-     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"> -->
-     <link rel="stylesheet" href="web/jquery.dataTables.min.css">
-     <!-- Data Tables SELECT extension  css -->
-     <!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.0.1/css/select.dataTables.min.css"> -->
-     <link rel="stylesheet" href="web/select.dataTables.min.css">
-     <link rel="stylesheet" href="css/main.css">
      
+     <!-- <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Vollkorn" /> -->
+     
+     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+     
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.0.1/css/select.dataTables.min.css"/>
+     
+     <link rel="stylesheet" href="jquery-ui/jquery-ui.css">
+     <link rel="stylesheet" href="css/main.css">
+
+     <!-- JavaScript  -->
+     
+     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+     <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script>
+
   </head>
   <body>
-
-    <!-- <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> -->
-    <script src="web/jquery-1.11.3.min.js"></script>
-    <!-- <script src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script> -->
-    <script src="web/jquery.dataTables.min.js"></script>
-
-    <!-- SELECT extension for datatables -->
-    <!-- <script src="https://cdn.datatables.net/select/1.0.1/js/dataTables.select.min.js"></script> -->
-    <script src="web/dataTables.select.min.js"></script>
     <script src="js/main.js"></script>
-
-            
-        <div class="table-wrapper">
+    <div class="page-wrapper">
+    <h2>Top 500</h2>
+    <div class="pure-g">
+      <div class="pure-u-3-5">
           <table id="top500-table" class="display" cellspacing="0">
               <thead>
                 <tr>
@@ -38,11 +39,11 @@
                   <th>Number of buildings</th>
                 </tr>
               </thead>
-        </table>
-     
-          <div class="info">
-            <div id="corporation-names"></div>
-        </div>
-     </div>       
+          </table>
+      </div>
+      </div>
+          <div class="info" id="corporation-names">
+          </div>
+     </div>
   </body>
 </html>
