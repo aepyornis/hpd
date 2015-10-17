@@ -5,6 +5,7 @@ $(document).ready(function() {
       { "data": "a" },
       { "data": "zip" },
       { "data": "num" },
+      { "data": "nc"},
       //hide the 'id' column; id is used later
       {
         "data": "id",

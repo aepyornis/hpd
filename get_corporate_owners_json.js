@@ -8,7 +8,12 @@ var conString = "postgres://mrbuttons@localhost/hpd";
 
 var client = new pg.Client(conString);
 
-var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
+// a= address
+// zip = zip code
+// num = number of contacts
+// id = id
+// nc = uniq names count
+var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
 var fileName = 'top500.txt';
 
