@@ -223,3 +223,5 @@ CREATE VIEW unique_names AS SELECT UNNEST(uniqnames), id FROM corporate_owners;
 
 SELECT * FROM (SELECT UNNEST(uniqnames) as corpname, id FROM corporate_owners) as x WHERE x.corpname ilike '%gotham%'
 
+
+SELECT numberofcontacts, array_length(regids, 1) as number_of_reg_ids, array_length(anyarray_uniq(regids), 1) as unique_ids FROM corporate_owners order by numberofcontacts DESC;

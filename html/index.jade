@@ -36,7 +36,7 @@ html(lang='en')
         ul.sidebar-nav
           li.sidebar-brand
             p
-              a(href='#') Large owners Hidden in HPD data
+              a(href='#') Investigating HPD data
           li
             a(href='#') Dashboard
           li
@@ -57,14 +57,16 @@ html(lang='en')
         .container-fluid
           .row
             .col-lg-12
-              h1 Simple Sidebar
+              h1 Large Landlords Hidden in HPD data
               p
-                | This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.
+                | New York City law requires that all owners of residential buildings with 3+ units register with HPD (Department of Housing, Preservation, and Development). These registrations are used by HPD to issue violations and track complaints. Although "official" parcel ownership data can be found a different city database, ACRIS, the owners listed on HPD registrations are commonally and government agengies. If a tenant decides to sue their landlord in housing court, the court considers HPD registration as a valid determination of ownership.
               p
-                | Make sure to keep all page content within the 
-                code #page-content-wrapper
-                | .
-              a#menu-toggle.btn.btn-default(href='#menu-toggle') Toggle Menu
+                | It is common practice for large property owners and landlords to use an individual LLC or corporation for building they own, and there is no legal restrictions on this. Accordingly, if one landlord owns 40 buildings, the landlord tpyically registered each building separately, under the legal enity that owns each individual building. This makes it difficult to know who are the largest property owners.
+              p 
+                | Each "corporate owner" registration must provide a business address;  it's often the address where tenants send their rent to. I have linked together all those addresses that are in common to locate corporations that register to the same address. Although it's technically fesable for multiple business to share the same address, it is highly likely that each one of these addresses represents a single corporate entity. Accordingly, in the tables below, you won't find a single "corporation" name.
+              p Number of registrations = roughly equivalent to the total number of buildings registered to that address. 'Garden complexes', including multi-buliding comlexes (typically coops) are considered  a single building here.
+              p Unique Corporations Registered = the number of 'unique' corporation names regierested at that address
+              p click on an address to see a list of the corporation names
           .row
             .col-lg-12
               table#top500-table.display(cellspacing='0')
@@ -72,7 +74,7 @@ html(lang='en')
                   tr
                     th Address
                     th Zip
-                    th Number of buildings
+                    th Number of Registrations (~buildings)
                     th Unique Corporations Registered
     // popup
     .modal#popup

@@ -13,9 +13,12 @@ var client = new pg.Client(conString);
 // num = number of contacts
 // id = id
 // nc = uniq names count
-var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
+// the query counts all 'garden complex' ids..
+//var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
-var fileName = 'top500.txt';
+var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
+
+var fileName = 'html/data/top500.txt';
 
 client.connect(function(err) {
   if(err) {
@@ -32,7 +35,7 @@ client.connect(function(err) {
     
     fs.writeFile(fileName, JSON.stringify(wrapped_data), function (err) {
       if (err) throw err;
-      console.log('top500.txt  saved!');
+      console.log(fileName + ' saved!');
       client.end();
     });
         
