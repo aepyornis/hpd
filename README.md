@@ -5,24 +5,16 @@
 
 To setup database run or modify: setup.sh
 
-* verify setup.sh script
-* display of unique names
-* sql query for properties
-  * server.js logic
-  * linking
-* display of property list
-*
-
 
 PAGE LAYOUT
 
-description
+INFO: 
 
 TABLE: top 500 w/ selectable popup
 
-write up about some of the results
+Write up about some of the results
 
-TABLE Corporate Search & address search (whole table view)
+TABLE Corporate Search & address search (whole table view) (TODO)
 
 maps:
 
@@ -30,8 +22,7 @@ maps:
 - 'spatial reach'
 - out of town owners
 
-future plans:
-agents address
+
 
 
 
