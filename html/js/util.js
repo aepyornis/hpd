@@ -55,11 +55,8 @@ function generate_corporate_names_html(names) {
     });
   }
 
-
-
-//shared functions
-
 // -> logs to console
 function ajax_fail() {
   console.error('AJAX FAIL :( :(');
+  $('.modal-body').html('ajax error...email ziggy@elephant-bird.net and tell him nothing went wrong!');
 }
