@@ -28,9 +28,8 @@ $(document).ready(function() {
     var id = table.row(index[0]).data().id;
     var address = table.row(index[0]).data().a;
     corporation_names(id, address);
-   });
+  });
 
   
-
 
 });
