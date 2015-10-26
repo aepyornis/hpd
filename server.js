@@ -43,6 +43,7 @@ server.get('/address/:add', function(req, res, next){
 });
 
 server.get('/id/corpnames/:id', function(req, res, next){
+  console.log('request for: ' + req.params.id);
   get_corporate_names(req.params.id, function(result){
     res.send(result.rows[0].uniqnames);
     next();
@@ -58,7 +59,7 @@ server.get('/id/buildings/:id', function(req, res, next){
 
 //serves static files from html folder
 server.get(/.*/, restify.serveStatic({
-  'directory': __dirname + '/html',
+    'directory': __dirname + '/html',
   'default': 'index.html'
 }));
 

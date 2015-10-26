@@ -17,34 +17,24 @@ function corp_lookup_action(ajax_data) {
   console.log(ajax_data);
 }
 
-
-// GETS list of corporation for selected corporate address
-// takes the 'id' of the selected row, does ajax request to /id/:id, and replaces html of div#corporation-names with new html
-function corporation_names(id, address) {
-    get_corporation_names(id)
+// generates popup (modal) for each address
+function names_popup(id, address) {
+  $('.modal-title').text(address);
+  $('#popup').modal();
+  get_corporation_names(id)
     .done(insert_names)
     .fail(ajax_fail);
+}
 
+// array -> replaces .modal-body html
+function insert_names(ajax_data) {
+    console.log(ajax_data);
+    var html = generate_corporate_names_html(ajax_data);
+    $('.modal-body').html(html);
+}
 
-// these functions for corporation_names() follow this pattern:
-// ajax -> generate_html -> insert into dom 
-// get_corporation_names -> generate_corporate_names_html -> names_in_dom
-
-  // array -> inserts into dom
-  function insert_names(ajax_response_data) {
-    var html = generate_corporate_names_html(ajax_response_data);
-    dialog(html, address);
-    //names_in_dom(html);
-  }
-
-
-  // string -> inserts into dom
-  function names_in_dom(html) {
-    $( '#corporation-names' ).html(html);
-  }
-
-  // array -> string
-  function generate_corporate_names_html(names) {
+// array -> string
+function generate_corporate_names_html(names) {
     var html = '<ul>';
     names.forEach(function(name){
       html += '<li>';
@@ -53,9 +43,10 @@ function corporation_names(id, address) {
     });
     html += '</ul>';
     return html;
-  }
+}
 
 // number -> promise
+// ajax call for 
   function get_corporation_names (id) {
     var url = '/id/corpnames/' + id;
     return $.ajax({
@@ -64,7 +55,7 @@ function corporation_names(id, address) {
     });
   }
 
-}
+
 
 //shared functions
 

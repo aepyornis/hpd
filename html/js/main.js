@@ -12,7 +12,6 @@ $(document).ready(function() {
         "visible": false,
        "searchable": false
       }
-      
     ],
     "order": [[2, "desc"]],
     // enable select and only allow one selection at a time
@@ -20,16 +19,11 @@ $(document).ready(function() {
       "style": 'single'
     }
   });
-
-  
   // listen for select event
   table.on( 'select', function ( e, dt, type, index ) {
     // this grabs selected row's id
     var id = table.row(index[0]).data().id;
     var address = table.row(index[0]).data().a;
-    corporation_names(id, address);
+    names_popup(id, address);
   });
-
-  
-
 });
