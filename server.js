@@ -3,7 +3,7 @@ var fs = require('fs');
 //var _ = require('lodash');
 var pg = require('pg');
 
-var conString = "postgres://mrbuttons@localhost/hpd";
+var conString = "postgres://mrbuttons:mrbuttons@localhost/hpd";
 
 var server = restify.createServer({
   name: 'Inside-HPD-Data'
@@ -16,19 +16,19 @@ server.use(function(req, res, next){
   return next();
 });
 
-var corporate_owners;
-retrive_corporate_owners_json('top500.txt', function(data){
-  corporate_owners = data;
-});
+//var corporate_owners;
+//retrive_corporate_owners_json('top500.txt', function(data){
+//  corporate_owners = data;
+//});
 
 ///////////
 //routes//
 /////////
 
-server.get('/top500', function(req, res, next){
-  res.send(corporate_owners);
-  return next();
-});
+//server.get('/top500', function(req, res, next){
+//  res.send(corporate_owners);
+//  return next();
+//});
 
 server.get('/corplookup/:name', function(req, res, next){
   corporate_name_search(req.params.name, function(result){
@@ -57,6 +57,13 @@ server.get('/id/buildings/:id', function(req, res, next){
   });
 });
 
+server.get('/id/latlng/:id', function(req,res,next){
+  get_corporate_owner_lat_lng(req.params.id, function(result){
+    res.send(result.rows[0]);
+    next();
+  });
+});
+
 //serves static files from html folder
 server.get(/.*/, restify.serveStatic({
     'directory': __dirname + '/html',
@@ -66,6 +73,13 @@ server.get(/.*/, restify.serveStatic({
 //////////////
 //FUNCTIONS//
 ////////////
+
+function get_corporate_owner_lat_lng(id, callback) {
+  var query = "SELECT lat, lng FROM corporate_owners WHERE id = $1";
+  var a = [];
+  a.push(Number(id));
+  do_query(query, a, callback);
+}
 
 function retrive_corporate_owners_json(fileName, callback) {
   fs.readFile(fileName, 'utf8', function(err, data){
