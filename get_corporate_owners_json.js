@@ -4,7 +4,7 @@
 var fs = require('fs');
 var pg = require('pg');
 
-var conString = "postgres://mrbuttons@localhost/hpd";
+var conString = "postgres://mrbuttons:mrbuttons@localhost/hpd";
 
 var client = new pg.Client(conString);
 
@@ -16,9 +16,11 @@ var client = new pg.Client(conString);
 // the query counts all 'garden complex' ids..
 //var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
-var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
+// var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
 
-var fileName = 'html/data/top500.txt';
+var query = "SELECT businesshousenumber as house, businessstreetname as street, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
+
+var fileName = 'html/data/top500_to_geocode.txt';
 
 client.connect(function(err) {
   if(err) {

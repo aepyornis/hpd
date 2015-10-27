@@ -125,11 +125,7 @@
 }
 
 #popup .modal-corp-list {
-    height: 300px;
+    height: 200px;
     overflow: scroll;
 }
 
-#map {
-  height: 200px;
-  width: 95%;
-}

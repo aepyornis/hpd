@@ -42,8 +42,9 @@ UPDATE contacts SET BusinessStreetName = regexp_replace( BusinessStreetName, '^W
 UPDATE contacts SET BusinessStreetName = regexp_replace( BusinessStreetName, '^N ', 'NORTH ');
 UPDATE contacts SET BusinessStreetName = regexp_replace( BusinessStreetName, '^S ', 'SOUTH ');
 
--- BusinessApartment
+-- Named Streets
 
+-- BusinessApartment
 -- remove underscores and periods
 -- SELECT BusinessApartment, regexp_replace( BusinessApartment, '_|\.', '', 'g') as fixed FROM contacts where BusinessApartment IS NOT NULL 
 

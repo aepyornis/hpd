@@ -11,12 +11,14 @@ CREATE TABLE bbl_lookup (
        bbl text PRIMARY KEY
 );
 
-COPY  bbl_lookup FROM 'C:\cygwin64\home\ziggy\code\DOB-Jobs\data\pluto\bbl_lat_lng.txt' (FORMAT CSV,  HEADER TRUE);
+COPY  bbl_lookup FROM 'C:\cygwin64\home\ziggy\code\hpd\data\bbl_lat_lng.txt' (FORMAT CSV,  HEADER TRUE);
 
 ALTER TABLE registrations add COLUMN lat numeric;
 ALTER TABLE registrations add COLUMN lng numeric;
 
 UPDATE  registrations SET lat = bbl_lookup.lat, lng = bbl_lookup.lng FROM bbl_lookup WHERE registrations.bbl = bbl_lookup.bbl;
+
+DROP TABLE bbl_lookup;
 
 COMMIT;
 
