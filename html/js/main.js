@@ -24,6 +24,8 @@ $(document).ready(function() {
     // this grabs selected row's id
     var id = table.row(index[0]).data().id;
     var address = table.row(index[0]).data().a;
+    
     names_popup(id, address);
+    map(id);
   });
 });

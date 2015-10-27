@@ -124,7 +124,12 @@
     }
 }
 
-#popup .modal-body {
-    max-height: 300px;
+#popup .modal-corp-list {
+    height: 300px;
     overflow: scroll;
+}
+
+#map {
+  height: 200px;
+  width: 95%;
 }

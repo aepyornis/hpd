@@ -12,6 +12,8 @@ html(lang='en')
     //datatables + datatables select
     link(href='web/jquery.dataTables.min.css', rel='stylesheet')
     link(href='web/select.dataTables.min.css', rel='stylesheet')
+    // leaflet CSS
+    link(href='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css', rel='stylesheet')
     // Custom CSS
     link(href='css/style.css', rel='stylesheet')
     // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -26,9 +28,12 @@ html(lang='en')
     // datatables & datatables select
     script(src='web/jquery.dataTables.min.js')
     script(src='web/dataTables.select.min.js')
+    // leaflet
+    script(src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js')
   body
     //script(src='js/ui.js')
     script(src='js/util.js')
+    script(src='js/map.js')
     script(src='js/main.js')
     #wrapper
       // Sidebar
@@ -88,18 +93,7 @@ html(lang='en')
               p blah blah
               h2 419 LAFAYETTE STREET
     // popup
-    .modal#popup
-      .modal-dialog
-        .modal-content
-          .modal-header
-            button.close(type='button', data-dismiss='modal', aria-label='Close')
-              span(aria-hidden='true') ×
-            h4.modal-title Modal title
-          .modal-body
-            .modal-corp-list
-              p Loading...
-          .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
+    include popup.jade
     // Menu Toggle Script
     script.
       $("#menu-toggle").click(function(e) {
