@@ -64,6 +64,13 @@ server.get('/id/latlng/:id', function(req,res,next){
   });
 });
 
+server.get('id/regs/latlng/:id', function(req,res,next){
+  get_buildings_latlngs(req.params.id, function(result){
+    res.send(result.rows);
+    next();
+  });
+});
+
 //serves static files from html folder
 server.get(/.*/, restify.serveStatic({
     'directory': __dirname + '/html',
@@ -74,14 +81,21 @@ server.get(/.*/, restify.serveStatic({
 //FUNCTIONS//
 ////////////
 
-function get_corporate_owner_lat_lng(id, callback) {
-  var query = "SELECT lat, lng FROM corporate_owners WHERE id = $1";
-  var a = [];
-  a.push(Number(id));
+function get_buildings_latlng(id, callback){
+  var query = 'SELECT r. lat, r. lng FROM (select unnest (regids) as regid from corporate_owners where id = $1) as x JOIN registrations as r on r. registrationid = x. regid WHERE r. lat IS NOT NULL';
+  var a =[];
+  a.push(id);
   do_query(query, a, callback);
 }
 
-function retrive_corporate_owners_json(fileName, callback) {
+  function get_corporate_owner_lat_lng (id, callback) {
+    var query = "SELECT lat, lng FROM corporate_owners WHERE id = $1";
+    var a = [];
+    a.push(Number(id));
+    do_query(query, a, callback);
+  }
+
+  function retrive_corporate_owners_json(fileName, callback) {
   fs.readFile(fileName, 'utf8', function(err, data){
     if (err) throw Error;
     callback(JSON.parse(data));
@@ -96,7 +110,7 @@ function get_corporate_names(id, callback) {
 }
 
 function get_buildings_by_id(id, callback) {
-  var query = "SELECT corporate_owner.regid, r.housenumber, r.streetname, r.zip, r.boro FROM (SELECT DISTINCT unnest(regids) as regid FROM corporate_owners WHERE id =$1) as corporate_owner JOIN registrations as r on corporate_owner.regid = r.registrationid";
+  var query = "SELECT corporate_owner.regid as regid, r.housenumber as h, r.streetname as st, r.zip as zip, r.boro as b, r.lat as lat, r.lng as lng FROM (SELECT DISTINCT unnest(regids) as regid FROM corporate_owners WHERE id =$1) as corporate_owner JOIN registrations as r on corporate_owner.regid = r.registrationid";
   var a = [];
   a.push(Number(id));
   do_query(query, a, callback);
