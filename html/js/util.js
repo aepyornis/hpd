@@ -26,11 +26,11 @@ function names_popup(id, address) {
     .fail(ajax_fail);
 }
 
-// array -> replaces .modal-body html
+// array -> replaces .modal-corp-list html
 function insert_names(ajax_data) {
     console.log(ajax_data);
     var html = generate_corporate_names_html(ajax_data);
-    $('.modal-body').html(html);
+    $('.modal-corp-list').html(html);
 }
 
 // array -> string

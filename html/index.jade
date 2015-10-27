@@ -6,7 +6,7 @@ html(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
     meta(name='author', content='')
-    title Simple Sidebar - Start Bootstrap Template
+    title NYC Landlords In HPD data
     // Bootstrap Core CSS
     link(href='css/bootstrap.min.css', rel='stylesheet')
     //datatables + datatables select
@@ -38,17 +38,17 @@ html(lang='en')
             p
               a(href='#') Investigating HPD data
           li
-            a(href='#') Dashboard
+            a(href='#') Information
           li
-            a(href='#') Shortcuts
+            a(href='#') Table
           li
-            a(href='#') Overview
+            a(href='#') Results
           li
-            a(href='#') Events
+            a(href='#') Map
           li
-            a(href='#') About
+            a(href='#') Landlord Lookup
           li
-            a(href='#') Services
+            a(href='#') Violations
           li
             a(href='#') Contact
       // /#sidebar-wrapper
@@ -61,7 +61,7 @@ html(lang='en')
               p
                 | New York City law requires that all owners of residential buildings with 3+ units register with HPD (Department of Housing, Preservation, and Development). These registrations are used by HPD to issue violations and track complaints. Although "official" parcel ownership data can be found a different city database, ACRIS, the owners listed on HPD registrations are commonally and government agengies. If a tenant decides to sue their landlord in housing court, the court considers HPD registration as a valid determination of ownership.
               p
-                | It is common practice for large property owners and landlords to use an individual LLC or corporation for building they own, and there is no legal restrictions on this. Accordingly, if one landlord owns 40 buildings, the landlord tpyically registered each building separately, under the legal enity that owns each individual building. This makes it difficult to know who are the largest property owners.
+                | It is common practice for large property owners and landlords to use an individual LLC or corporation for each building they own, and there is no legal restrictions on this. Accordingly, if one landlord owns 40 buildings, the landlord tpyically registers each building separately, under the legal enity that owns each individual building. This makes it difficult to know who are the largest property owners.
               p 
                 | Each "corporate owner" registration must provide a business address;  it's often the address where tenants send their rent to. I have linked together all those addresses that are in common to locate corporations that register to the same address. Although it's technically fesable for multiple business to share the same address, it is highly likely that each one of these addresses represents a single corporate entity. Accordingly, in the tables below, you won't find a single "corporation" name.
               p Number of registrations = roughly equivalent to the total number of buildings registered to that address. 'Garden complexes', including multi-buliding comlexes (typically coops) are considered  a single building here.
@@ -72,10 +72,21 @@ html(lang='en')
               table#top500-table.display(cellspacing='0')
                 thead
                   tr
-                    th Address
+                    th Corporate Address
                     th Zip
                     th Number of Registrations (~buildings)
                     th Unique Corporations Registered
+          .row
+            .col-lg-10
+              h2 #1 Prudential Douglas Elliman: 372 Properties
+              p Blah blah
+              h2 Brusco Group
+              p #[a(href='http://www.bruscogroup.com/') Brusco Group] is an upper west side reality company
+              h2 Blackstone
+              p blah blah
+              h2 277 Classon
+              p blah blah
+              h2 419 LAFAYETTE STREET
     // popup
     .modal#popup
       .modal-dialog
@@ -85,7 +96,8 @@ html(lang='en')
               span(aria-hidden='true') ×
             h4.modal-title Modal title
           .modal-body
-            p Loading...
+            .modal-corp-list
+              p Loading...
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
     // Menu Toggle Script
