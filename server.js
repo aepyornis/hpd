@@ -110,7 +110,7 @@ function get_corporate_names(id, callback) {
 }
 
 function get_buildings_by_id(id, callback) {
-  var query = "SELECT corporate_owner.regid as regid, r.housenumber as h, r.streetname as st, r.zip as zip, r.boro as b, r.lat as lat, r.lng as lng FROM (SELECT DISTINCT unnest(regids) as regid FROM corporate_owners WHERE id =$1) as corporate_owner JOIN registrations as r on corporate_owner.regid = r.registrationid";
+  var query = "SELECT corporate_owner.regid as regid, r.housenumber as h, r.streetname as st, r.zip as zip, r.boro as b, r.lat as lat, r.lng as lng, c.corporationname as corp FROM (SELECT DISTINCT unnest(regids) as regid FROM corporate_owners WHERE id = $1) as corporate_owner JOIN registrations as r on corporate_owner.regid = r.registrationid JOIN (SELECT * FROM contacts WHERE registrationcontacttype = 'CorporateOwner') as c on corporate_owner.regid = c.registrationid";
   var a = [];
   a.push(Number(id));
   do_query(query, a, callback);
