@@ -3,7 +3,7 @@ BEGIN;
 
 ALTER TABLE registrations ADD COLUMN bbl text;
 
-UPDATE  registrations SET bbl = cast(boroid as text) || lpad(cast(block as text), 5, '0') || lpad(cast(lot as text), 4, '0');
+UPDATE registrations SET bbl = cast(boroid as text) || lpad(cast(block as text), 5, '0') || lpad(cast(lot as text), 4, '0');
 
 CREATE TABLE bbl_lookup (
        lat numeric,
@@ -11,7 +11,7 @@ CREATE TABLE bbl_lookup (
        bbl text PRIMARY KEY
 );
 
-COPY  bbl_lookup FROM 'C:\cygwin64\home\ziggy\code\hpd\data\bbl_lat_lng.txt' (FORMAT CSV,  HEADER TRUE);
+COPY  bbl_lookup FROM '/var/lib/openshift/562fedcc89f5cfb811000141/app-root/repo/data/bbl_lat_lng.txt' (FORMAT CSV,  HEADER TRUE);
 
 ALTER TABLE registrations add COLUMN lat numeric;
 ALTER TABLE registrations add COLUMN lng numeric;

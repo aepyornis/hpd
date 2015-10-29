@@ -1,14 +1,14 @@
 BEGIN;
 
-
 create table corporate_owners AS (
        SELECT BusinessHouseNumber,
               BusinessStreetName,
               BusinessZip,
               BusinessApartment,
               count (*) as numberOfContacts,
-              array_remove(array_agg(CorporationName), NULL) as corporationnames,
-              array_agg(registrationID) as regids
+              anyarray_remove_null(array_agg(CorporationName)) as corporationnames,
+              array_agg(registrationID) as regids,
+              anyarray_uniq(array_agg(registrationID)) as uniqregids
        FROM contacts
        WHERE
                 (BusinessHouseNumber IS NOT NULL AND BusinessStreetName IS NOT NULL AND  BusinessZip IS NOT NULL)

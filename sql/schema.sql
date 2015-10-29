@@ -38,8 +38,10 @@ create table contacts (
 );
 
 -- these paths need to be updated
-COPY registrations FROM 'C:\cygwin64\home\ziggy\code\hpd\data\registrations\Registrations20151001\Registration20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE) ;
+COPY registrations FROM 'C:\\cygwin64\\home\\ziggy\\code\\hpd\\data\\r.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE) ;
+--COPY registrations FROM '/var/lib/openshift/562fedcc89f5cfb811000141/app-root/repo/data/Registration20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE) ;
 
-COPY contacts FROM 'C:\cygwin64\home\ziggy\code\hpd\data\registrations\Registrations20151001\RegistrationContact20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
+COPY contacts FROM 'C:\\cygwin64\\home\\ziggy\\code\\hpd\\data\\c.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
+--COPY contacts FROM '/var/lib/openshift/562fedcc89f5cfb811000141/app-root/repo/data/RegistrationContact20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
 
 COMMIT;
