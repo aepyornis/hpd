@@ -1,5 +1,4 @@
 create index on corporate_owners(numberofcontacts desc);
-create index on corporate_owners();
 
 create index on contacts(registrationcontacttype);
 create index on contacts(registrationid);

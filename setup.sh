@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# create the database if needed
 # createdb hpd
 
+# create table and COPY data
 psql -d hpd -f 'sql/schema.sql'
 
 # cleanup contact addresses:

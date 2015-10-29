@@ -1,15 +1,23 @@
 var restify = require('restify');
 var fs = require('fs');
-//var _ = require('lodash');
 var pg = require('pg');
-
-var conString = "postgres://mrbuttons:mrbuttons@localhost/hpd";
+// db settings
+  pg.defaults.database =  'hpd';
+  pg.defaults.host = process.env.OPENSHIFT_POSTGRESQL_DB_HOST || 'localhost';
+  pg.defaults.user = process.env.OPENSHIFT_POSTGRESQL_DB_USERNAME || 'mrbuttons';
+  pg.defaults.password = process.env.OPENSHIFT_POSTGRESQL_DB_PASSWORD || 'mrbuttons';
+  if (process.env.OPENSHIFT_POSTGRESQL_DB_PORT) {
+    pg.defaults.port = process.env.OPENSHIFT_POSTGRESQL_DB_PORT;
+  }
+// server settings
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 
 var server = restify.createServer({
   name: 'Inside-HPD-Data'
 });
 
-server.listen(8080);
+server.listen(server_port, server_ip_address);
 
 // this functions runs for all requests
 server.use(function(req, res, next){
@@ -24,32 +32,32 @@ server.use(function(req, res, next){
 ///////////
 //routes//
 /////////
+ 
 
-//server.get('/top500', function(req, res, next){
-//  res.send(corporate_owners);
-//  return next();
-//});
-
+/// search by corporation name
 server.get('/corplookup/:name', function(req, res, next){
   corporate_name_search(req.params.name, function(result){
-    console.log(result);
+    //console.log(result);
     res.send(result.rows[0]);
     next();
   });
 });
 
+// search by property address
 server.get('/address/:add', function(req, res, next){
   
 });
 
+//  corporate_owners names by corporate_owners id
 server.get('/id/corpnames/:id', function(req, res, next){
-  console.log('request for: ' + req.params.id);
+  //console.log('request for: ' + req.params.id);
   get_corporate_names(req.params.id, function(result){
     res.send(result.rows[0].uniqnames);
     next();
   });
 });
 
+// list of buildings of corporate_owners by corporate_owners id
 server.get('/id/buildings/:id', function(req, res, next){
   get_buildings_by_id(req.params.id, function(result){
     res.send(result.rows);
@@ -57,16 +65,10 @@ server.get('/id/buildings/:id', function(req, res, next){
   });
 });
 
+// get lat/lng of corporate_owner by id
 server.get('/id/latlng/:id', function(req,res,next){
   get_corporate_owner_lat_lng(req.params.id, function(result){
     res.send(result.rows[0]);
-    next();
-  });
-});
-
-server.get('id/regs/latlng/:id', function(req,res,next){
-  get_buildings_latlngs(req.params.id, function(result){
-    res.send(result.rows);
     next();
   });
 });
@@ -128,7 +130,7 @@ function corporate_name_search(name, callback) {
 // POSTGRES QUERY
 // input: string, array, callback
 function do_query(sql, params, callback) {
-  pg.connect(conString, function(err, client, done){
+  pg.connect(function(err, client, done){
     if(err) {
       return console.error('error fetching client from pool', err);
     }

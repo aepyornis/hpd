@@ -1,9 +1,9 @@
 // a small node program to extract the a JSON of corporate owners from postgres
 // edit the pg contection details, query, and fileName as needed.
-
 var fs = require('fs');
 var pg = require('pg');
 
+//local 
 var conString = "postgres://mrbuttons:mrbuttons@localhost/hpd";
 
 var client = new pg.Client(conString);
@@ -13,14 +13,16 @@ var client = new pg.Client(conString);
 // num = number of contacts
 // id = id
 // nc = uniq names count
+
 // the query counts all 'garden complex' ids..
 //var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
-// var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
+// this treats garden complexes as a single one. 
+var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
 
-var query = "SELECT businesshousenumber as house, businessstreetname as street, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
+//var geocode_query = "SELECT businesshousenumber as house, businessstreetname as street, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
 
-var fileName = 'html/data/top500_to_geocode.txt';
+var fileName = 'html/data/top500.txt';
 
 client.connect(function(err) {
   if(err) {
