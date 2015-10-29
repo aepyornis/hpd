@@ -3,6 +3,8 @@
 # create the database if needed
 # createdb hpd
 
+# file paths will need to be changed in schema.sql, google_geocode.sql, and registrations_geocode.sql  
+
 # create table and COPY data
 psql -d hpd -f 'sql/schema.sql'
 
@@ -33,5 +35,6 @@ psql -d hpd -f 'registrations_grouped_by_bbl.sql'
 # index
 psql -d hpd -f 'sql/index.sql'
 
-echo 'generating top 500 file'
+# create top500.txt file
+mkdir html/data
 node get_corporate_owners_json.js 

@@ -46,7 +46,7 @@ function generate_corporate_names_html(names) {
 }
 
 // number -> promise
-// ajax call for 
+// ajax call for corpnames
   function get_corporation_names (id) {
     var url = '/id/corpnames/' + id;
     return $.ajax({

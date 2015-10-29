@@ -24,16 +24,10 @@ server.use(function(req, res, next){
   return next();
 });
 
-//var corporate_owners;
-//retrive_corporate_owners_json('top500.txt', function(data){
-//  corporate_owners = data;
-//});
-
 ///////////
 //routes//
 /////////
  
-
 /// search by corporation name
 server.get('/corplookup/:name', function(req, res, next){
   corporate_name_search(req.params.name, function(result){
@@ -44,8 +38,7 @@ server.get('/corplookup/:name', function(req, res, next){
 });
 
 // search by property address
-server.get('/address/:add', function(req, res, next){
-  
+server.get('/address/:add', function(req, res, next){ 
 });
 
 //  corporate_owners names by corporate_owners id
@@ -97,6 +90,7 @@ function get_buildings_latlng(id, callback){
     do_query(query, a, callback);
   }
 
+  // not currently used -- static file read instead
   function retrive_corporate_owners_json(fileName, callback) {
   fs.readFile(fileName, 'utf8', function(err, data){
     if (err) throw Error;
@@ -135,7 +129,7 @@ function do_query(sql, params, callback) {
       return console.error('error fetching client from pool', err);
     }
     client.query(sql, params, function(err, result){
-            if (err){
+      if (err){
         console.error('query error', err);
         callback(null);
       } else {

@@ -19,12 +19,12 @@ $(document).ready(function() {
       "style": 'single'
     }
   });
-  // listen for select event
+  // listen for the select event
   table.on( 'select', function ( e, dt, type, index ) {
     // this grabs selected row's id
     var id = table.row(index[0]).data().id;
     var address = table.row(index[0]).data().a;
-    
+
     names_popup(id, address);
     map(id);
   });

@@ -1,3 +1,4 @@
+// creates map in #modal-map
 function map(id) {
   var mapID = 'map-' + id;
   $("#modal-map").html('<div id="' + mapID +'"></div>');
@@ -11,6 +12,7 @@ function map(id) {
   add_buildings(map, id);
 }
 
+// style for buildings marker
 var circleMarkerStyle = {
   radius: 8,
   fillColor: '#1f78b4',

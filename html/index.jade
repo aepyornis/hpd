@@ -13,7 +13,7 @@ html(lang='en')
     link(href='web/jquery.dataTables.min.css', rel='stylesheet')
     link(href='web/select.dataTables.min.css', rel='stylesheet')
     // leaflet CSS
-    link(href='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css', rel='stylesheet')
+    link(href='web/leaflet.css', rel='stylesheet')
     // Custom CSS
     link(href='css/style.css', rel='stylesheet')
     // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -29,7 +29,7 @@ html(lang='en')
     script(src='web/jquery.dataTables.min.js')
     script(src='web/dataTables.select.min.js')
     // leaflet
-    script(src='http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js')
+    script(src='web/leaflet.js')
   body
     //script(src='js/ui.js')
     script(src='js/util.js')
@@ -71,6 +71,7 @@ html(lang='en')
               p Number of registrations = roughly equivalent to the total number of buildings registered to that address. 'Garden complexes', including multi-building complexes (typically coops) are considered a single building here.
               p Unique Corporations Registered = the number of 'unique' corporation names registered at that address
               p <strong>Click on an address to see a list of corporation names registered and map of their properties</strong>
+              p <small>You may have to wait 5-10 seconds to see the properties show up on the map</small>
           .row
             a(name='table')
             .col-lg-12
@@ -89,9 +90,9 @@ html(lang='en')
               h4 Prudential Douglas Elliman (675 Third Avenue)
               p This company is one of NYC's largest, owns at least 372.
               h4 Blackstone only has 19? (345 Park Avenue)
-              p Blackstone -- the illustrious mega landlord who just purchased Sty-town -- only shows 19 properties registered at their HQ, 345 Park Avenue. Perhaps they focus their attention to other cities or don't register their buildings in this manner?
+              p Blackstone -- the malevolent mega-landlord who just purchased Stuy-Town -- only shows 19 properties registered at their HQ, 345 Park Avenue. Perhaps they focus their attention to other cities or don't register their buildings in this manner?
               h4 277 Classon Ave
-              p Exactly who this is I don't know yet, but they are clearly a major player in Brooklyn Real Esate.
+              p Exactly who this is I don't know yet, but they are clearly a major player in Brooklyn Real Estate with 119 buildings.
               h2 More results to come!
           .row
             .col-lg-10
@@ -110,7 +111,7 @@ html(lang='en')
               p Contact Ziggy, the site's creator, at ziggy[at]elephant-bird.net
               p View Ziggy's other real-estate research sites: #[a(href="http://www.bushwickcommunitymap.org") Bushwick Community Map] and #[a(href="http://dobjobs.org") DOB Jobs]
               p Source code #[a(href="http://github.com/aepyornis/hpd") available here]. Made with love and support from #[a(href="http://thelearningcollective.nyc") The Learning Collective]
-              p <strong>NOTICE:</strong> this website may only be used for good and not evil. Any use by real-estate or for any profit-making objective is not permitted! 
+              p <strong>NOTICE:</strong> this website may only be used for good and not evil. Use by real-estate or for any profit-making purpose is not permitted! 
     // popup
     include popup.jade
     // Menu Toggle Script
