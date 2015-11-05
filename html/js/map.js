@@ -21,7 +21,7 @@ var circleMarkerStyle = {
 }
 
 function add_buildings(map, id) {
-  get('id/buildings/', id)
+   get('id/buildings/'+ id)
     .done(add_all_the_buildings_to_the_map)
     .fail(ajax_fail);
   
@@ -47,7 +47,7 @@ function add_buildings(map, id) {
 }
 
 function add_hq(map, id) {
-  get('/id/latlng/', id)
+  get('/id/latlng/' + id)
     .done(add_marker_to_map_and_pan);
 
   function add_marker_to_map_and_pan(geo) {
@@ -55,13 +55,6 @@ function add_hq(map, id) {
     map.panTo(geo);
   }
 
-}
-
-function get(url, id) {
-  return $.ajax({
-    url: url + id,
-    type: 'GET'
-  });
 }
 
 

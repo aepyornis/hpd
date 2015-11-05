@@ -38,7 +38,20 @@ server.get('/corplookup/:name', function(req, res, next){
 });
 
 // search by property address
-server.get('/address/:add', function(req, res, next){ 
+server.get('/address/:bor/:add', function(req, res, next){
+  var address = /(\d+(?:-\d+)?)[ ](.+)/.exec(req.params.add);
+  var house = address[1];
+  var street = address[2];
+  var bor = req.params.bor;
+  
+  console.log(house);
+  console.log(street);
+  console.log(bor);
+  
+
+  res.send('GOT THAT SHIT');
+  next();
+  
 });
 
 //  corporate_owners names by corporate_owners id
@@ -121,6 +134,27 @@ function corporate_name_search(name, callback) {
   do_query(query, a, callback);
 }
 
+//address search
+function address_search(address, callback) {
+  
+}
+
+// address search queries
+// input: strings
+function get_regid_for_address(house, street, bor, callback) {
+  var query = "SELECT registrationid as regid from registrations where housenumber = $1 AND streetname = $2 AND boroid = $3";
+  var values = [house, street, bor];
+  do_query(query, values, callback);
+  // regid is available at result.rows[0].regid
+}
+
+function get_corporation_name_for_regid(regid, callback){
+  var query = "select corporationname from contacts where registrationcontacttype = 'CorporateOwner' and registrationid = $1";
+  var values = [regid];
+  do_query(query, values, callback);
+}
+
+
 // POSTGRES QUERY
 // input: string, array, callback
 function do_query(sql, params, callback) {
@@ -141,3 +175,5 @@ function do_query(sql, params, callback) {
   });
 }
 
+//get_regid_for_address('40', 'PARK AVENUE', '1', function(data){console.log(data.rows[0].regid)});
+get_corporation_name_for_regid(112823, function(data){console.log(data.rows)});

@@ -8,8 +8,8 @@
           .input-group(style='width: 100%')
             input(type='text', placeholder='address').form-control#address-search-input
         .col-md-2.col-lg-2.col-sm-2
-          select(name="borough", style='max-width: 100%;font-size: .8em')
-            option(selected, style='display:none;') Brorough
+          select(name="borough", style='max-width: 100%;font-size: .8em')#address-search-bor-select
+            option(selected, style='display:none;', value='0') Brorough
             option(value='1') Manhattan
             option(value='2') Bronx
             option(value='3') Brooklyn
