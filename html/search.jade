@@ -2,4 +2,21 @@
   .col-lg-10
     a(name='lookup')
     h2 Landlord lookup
-    p Within the next few days you'll be able to search up any landlord name or property address...stay tuned!
+    .container-fluid
+      .row
+        .col-md-5.col-lg-5.col-sm-5
+          .input-group(style='width: 100%')
+            input(type='text', placeholder='address').form-control
+        .col-md-2.col-lg-2.col-sm-2
+          select(name="borough", style='max-width: 100%;font-size: .8em')
+            option(selected, style='display:none;') Brorough
+            option(value='1') Manhattan
+            option(value='2') Bronx
+            option(value='3') Brooklyn
+            option(value='4') Queens
+            option(value='5') Staten Island
+        .col-md-1.col-lg-1.col-sm-1
+          button(type='submit').btn.btn-default search
+      .row
+        .col-md-10.col-lg-10.col-sm-10
+          p Type in an address of a building
