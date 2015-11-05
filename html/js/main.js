@@ -28,4 +28,8 @@ $(document).ready(function() {
     names_popup(id, address);
     map(id);
   });
+
+  $('#address-search-btn').click(function(){
+    address_popup();
+  });
 });
