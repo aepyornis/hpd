@@ -11,6 +11,9 @@ psql -d hpd -f 'sql/schema.sql'
 # cleanup contact addresses:
 psql -d hpd -f 'sql/address_cleanup.sql'
 
+# cleanup registration addresses
+psql -d hpd -f 'sql/registrations_clean_up.sql'
+
 # add function anyarray_uniq()
 psql -d hpd -f 'sql/anyarray_uniq.sql'
 
