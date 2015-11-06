@@ -67,3 +67,47 @@ describe('address_search', function(){
   });
 });
 
+
+describe('normalize street name', function(){
+  var normalize = s.normalize_street_name;
+  it('la, ln to lane', function(){
+    normalize('BROWN LA S').should.eql('BROWN LANE SOUTH');
+    normalize('ANY LN').should.eql('ANY LANE');
+  });
+  it('pl to place', function(){
+    normalize('MY PL').should.eql('MY PLACE');
+  });
+  it('ST STR to street', function(){
+    normalize('44 ST').should.eql('44 STREET');
+  });
+  it('rd to ROAD', function(){
+    normalize('A REALLY GREAT RD').should.eql('A REALLY GREAT ROAD');
+  });
+  it('prk, blvd, bch', function(){
+    normalize('EASTERN PKWY').should.eql('EASTERN PARKWAY');
+    normalize('ROCKAWAY BCH BLVD').should.eql('ROCKAWAY BEACH BOULEVARD');
+  });
+  it('directions', function(){
+    normalize('NICE LANE E').should.eql('NICE LANE EAST');
+    normalize('NICE LANE S').should.eql('NICE LANE SOUTH');
+    normalize('NICE LANE W').should.eql('NICE LANE WEST');
+    normalize('NICE LANE N').should.eql('NICE LANE NORTH');
+  });
+  it('no more periods', function(){
+    normalize('text.text').should.eql('texttext');
+    normalize('t.ext.tex.t').should.eql('texttext');
+  });
+  it('ave to AVENUE', function(){
+    normalize('1 AVE').should.eql('1 AVENUE');
+  });
+  it('removes TH RD ND ST', function(){
+    normalize('1ST RD').should.eql('1 ROAD');
+    normalize('2ND RD').should.eql('2 ROAD');
+    normalize('3RD RD').should.eql('3 ROAD');
+    normalize('4TH RD').should.eql('4 ROAD');
+  });
+  it('works on whole examples', function(){
+    normalize('33RD ST. S').should.eql('33 STREET SOUTH');
+    normalize('1ST RD').should.eql('1 ROAD');
+  });  
+})

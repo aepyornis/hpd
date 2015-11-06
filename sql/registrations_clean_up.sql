@@ -1,7 +1,8 @@
 UPDATE registrations SET streetname = regexp_replace( streetname, ' AVE$|-AVE$| -AVE$', ' AVENUE') WHERE streetname ~ '.*(AVE$|-AVE$| -AVE$)';
 
 
-UPDATE registrations SET streetname = regexp_replace( streetname, '^ST.? ', 'SAINT ', 'g') WHERE streetname ~  '^ST.? .*';
+-- unsure what to do about the conflict with streets?
+--UPDATE registrations SET streetname = regexp_replace( streetname, '^ST.? ', 'SAINT ', 'g') WHERE streetname ~  '^ST.? .*';
 
 -- remove periods
 
@@ -17,6 +18,7 @@ UPDATE registrations SET streetname = regexp_replace( streetname, ' LA$', ' LANE
 UPDATE registrations SET streetname = regexp_replace( streetname, ' LN$', ' LANE', 'g');
 UPDATE registrations SET streetname = regexp_replace( streetname, ' PL$', ' PLACE', 'g');
 UPDATE registrations SET streetname = regexp_replace( streetname, ' ST$| STR$', ' STREET', 'g');
+UPDATE registrations SET streetname = regexp_replace( streetname, ' ST')
 UPDATE registrations SET streetname = regexp_replace( streetname, ' RD$', ' ROAD', 'g');
 UPDATE registrations SET streetname = regexp_replace( streetname, ' PKWY$', 'PARKWAY', 'g');
 UPDATE registrations SET streetname = regexp_replace( streetname, ' PKWY ', ' PARKWAY ', 'g');
@@ -28,7 +30,7 @@ UPDATE registrations SET streetname = regexp_replace( streetname, '^BCH ', 'BEAC
 UPDATE registrations SET streetname = regexp_replace( streetname, '^E ', 'EAST ');
 UPDATE registrations SET streetname = regexp_replace( streetname, '^W ', 'WEST ');
 UPDATE registrations SET streetname = regexp_replace( streetname, '^N ', 'NORTH ');
-UPDATE registrations SET streetname = regexp_replace( streetname, '^S ', 'SOUTH ');
+UPDATE registrations SET streetname = regexp_replace( streetname, '^S ', 'SOUTH '); 
 
 --UPDATE registrations SET BusinessApartment = regexp_replace( BusinessApartment, '_|\.', '', 'g');
 

@@ -148,7 +148,7 @@ function address_search(address, bor, callback) {
   // parse the address
   var add = /(\d+(?:-\d+)?)[ ](.+)/.exec(address);
   var house = add[1];
-  var street = add[2];
+  var street = normalize_street_name(add[2]);
   
   //this is an async query that returns with the regid for the address searched
   get_regid_for_address(house, street, bor, function(pgdata){
@@ -181,6 +181,27 @@ function parallel_query_abettor(regid, whendone) {
    function(err, results) {
     whendone(_.extend(results[0], results[1], {'regid': regid}));
    });
+}
+  
+// parse street name
+function normalize_street_name(street) {
+  //remove periods
+  var normalized = street
+        .replace(/\./g,'')
+        .replace(/ (?:LA|LN)( (?:S|N|E|W).*)?$/g, ' LANE$1')
+        .replace(/ PL( (?:S|N|E|W).*)?$/g, ' PLACE$1')
+        .replace(/ (?:ST|STR)( (?:S|N|E|W).*)?$/g, ' STREET$1')
+        .replace(/ RD( (?:S|N|E|W).*)?$/g, ' ROAD$1')
+        .replace(/ PKWY( (?:S|N|E|W).*)?$/g, ' PARKWAY$1')
+        .replace(/ BLVD( (?:S|N|E|W).*)?$/g, ' BOULEVARD$1')
+        .replace(/ AVE( (?:S|N|E|W).*)?$/g, ' AVENUE$1')
+        .replace(/ BCH /g, ' BEACH ')
+        .replace(/^(.+ )S$/, '$1SOUTH')
+        .replace(/^(.+ )E$/, '$1EAST')
+        .replace(/^(.+ )N$/, '$1NORTH')
+        .replace(/^(.+ )W$/, '$1WEST')
+        .replace(/(\d+)(?:TH|RD|ND|ST)( .+)/g, '$1$2');
+  return normalized;
 }
 
 // address search queries
@@ -231,7 +252,8 @@ module.exports = {
   get_regid_for_address: get_regid_for_address,
   get_corporation_name_for_regid: get_corporation_name_for_regid,
   get_corporate_owner_info_for_regid: get_corporate_owner_info_for_regid,
-  get_corporate_names: get_corporate_names
+  get_corporate_names: get_corporate_names,
+  normalize_street_name: normalize_street_name
 };
 
 

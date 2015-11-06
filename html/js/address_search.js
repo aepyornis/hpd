@@ -2,7 +2,7 @@
 function address_popup() {
   var address = $('#address-search-input').val();
   var bor = $('#address-search-bor-select').val();
-  var url = 'address/' + bor + '/' + encodeURIComponent(address);
+  var url = 'address/' + bor + '/' + encodeURIComponent(address.toUpperCase());
   get(url)
     .done(function(data){
       if (data.regid === 'error') {
@@ -12,6 +12,7 @@ function address_popup() {
       }
     });
 
+  // set title of popup and open it
   $('#address-result').text(address);
   $('#address-search-popup .modal-title').text(address);
   $('#address-search-popup').modal();
@@ -24,7 +25,6 @@ function address_popup() {
     $('.corporationname-result').text(data.corporationname);
     $('#business-address-result').text(data.businesshousenumber + ' ' + data.businessstreetname);
     $('#number-buildings-registered-result').text(data.buildingcount);
-    
   }
 }
 
@@ -34,6 +34,4 @@ function deal_with_bad_address_not_in_db(address) {
   // show error, hide info
   $('#address-search-popup .modal-error').css('display', 'block');
   $('#address-search-popup .modal-body .info').css('display', 'none');
-  
-  
 }

@@ -29,9 +29,17 @@
             h4.modal-title Modal title
           .modal-body
             .info
-              h4 #[span(id="address-result") address] is registered to #[span(class="corporationname-result") ...]
-              h4  #[span(class="corporationname-result") ...]'s businesses address is #[span(id="business-address-result") ...]
-              h4 There are #[span(id="number-buildings-registered-result") ...]  buildings regierested at that address
+              h5 
+                strong #[span(id="address-result") address] 
+                | is registered to 
+                strong #[span(class="corporationname-result") ...]
+              h5  
+                strong #[span(class="corporationname-result") ...]'s 
+                | businesses address is 
+                strong #[span(id="business-address-result") ...]
+              h5 There are 
+                strong #[span(id="number-buildings-registered-result") ...]  
+                | buildings regierested at that address
               //.modal-corp-list
               //  p Loading...
               //#modal-map
