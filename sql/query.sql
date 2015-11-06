@@ -225,3 +225,32 @@ SELECT * FROM (SELECT UNNEST(uniqnames) as corpname, id FROM corporate_owners) a
 
 
 SELECT numberofcontacts, array_length(regids, 1) as number_of_reg_ids, array_length(anyarray_uniq(regids), 1) as unique_ids FROM corporate_owners order by numberofcontacts DESC;
+
+
+--
+--Get regid for address
+SELECT registrationid from registrations where housenumber = $1 AND streetname = $2 AND boroid = $3;
+SELECT registrationid from registrations where housenumber = '40' AND streetname = 'PARK AVENUE' AND boroid = 1;
+112823
+--get corporation name for regid
+select corporationname from contacts where registrationcontacttype = 'CorporateOwner' and registrationid = $1
+select corporationname from contacts where registrationcontacttype = 'CorporateOwner' and registrationid = 112823
+
+--get corporate_owner id, regids, uniqnames, businesshousenumber, businessstreetname, zip
+SELECT id, regids, uniqnames, businesshousenumber, businessstreetname, businesszipzip FROM corporate_owners WHERE $1 = ANY(regids)
+
+
+SELECT id, regids, uniqnames, businesshousenumber, businessstreetname, businesszipzip FROM corporate_owners WHERE 112823 = ANY(regids);
+
+345 PARK AVENUE
+
+
+
+SELECT
+businesshousenumber || ' ' || businessstreetname as a,
+businesszip as zip,
+array_length(anyarray_uniq(regids), 1) as num,
+id,
+array_length(uniqnames, 1) as nc
+FROM corporate_owners ORDER BY num DESC LIMIT 500
+registrationid

@@ -60,3 +60,10 @@ function ajax_fail() {
   console.error('AJAX FAIL :( :(');
   $('.modal-body').html('ajax error...email ziggy@elephant-bird.net and tell him something  went wrong!');
 }
+
+function get(url) {
+  return $.ajax({
+    url: url,
+    type: 'GET'
+  });
+}

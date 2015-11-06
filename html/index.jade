@@ -34,6 +34,7 @@ html(lang='en')
     //script(src='js/ui.js')
     script(src='js/util.js')
     script(src='js/map.js')
+    script(src='js/address_search.js')
     script(src='js/main.js')
     #wrapper
       // Sidebar
@@ -94,11 +95,7 @@ html(lang='en')
               h4 277 Classon Ave
               p Exactly who this is I don't know yet, but they are clearly a major player in Brooklyn Real Estate with 119 buildings.
               h2 More results to come!
-          .row
-            .col-lg-10
-              a(name='lookup')
-              h2 Landlord lookup
-              p Within the next few days you'll be able to search up any landlord name or property address...stay tuned!
+          include search.jade
           .row
             .col-lg-10
               a(name='violations')
