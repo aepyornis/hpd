@@ -90,6 +90,7 @@ function get_buildings_latlng(id, callback){
   do_query(query, a, callback);
 }
 
+
 function get_corporate_owner_lat_lng (id, callback) {
   var query = "SELECT lat, lng FROM corporate_owners WHERE id = $1";
   var a = [];
@@ -127,6 +128,8 @@ function corporate_name_search(name, callback) {
   a.push(prepared_name);
   do_query(query, a, callback);
 }
+
+
 
 //address search
 

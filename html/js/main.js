@@ -26,7 +26,7 @@ $(document).ready(function() {
     var address = table.row(index[0]).data().a;
 
     names_popup(id, address);
-    map(id);
+    map(id, '#modal-map');
   });
 
   $('#address-search-btn').click(function(){

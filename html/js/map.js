@@ -1,7 +1,7 @@
-// creates map in #modal-map
-function map(id) {
+// creates map in #map-div
+function map(id, mapdiv) {
   var mapID = 'map-' + id;
-  $("#modal-map").html('<div id="' + mapID +'"></div>');
+  $(mapdiv).html('<div id="' + mapID +'"></div>');
   $("#" + mapID).css('height', '350px');
   $("#" + mapID).css('width', '100%');
   
