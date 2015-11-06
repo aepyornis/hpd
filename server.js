@@ -131,13 +131,12 @@ function corporate_name_search(name, callback) {
 //address search
 
 //this object is what's passed to the callback of address_search
-// regids are perhaps not necessary?
 /*
 {
   regid: 12324,
   corporationname: 'blah LLC',
   ownerID: 444,
-  regids:  [numbers]
+  buildingcount: number
   uniqnames: [text],
   businesshousenumber: '345'
   businessstreetname: 'PARK Ave'
@@ -200,7 +199,7 @@ function get_corporation_name_for_regid(regid, callback){
 }
 
 function get_corporate_owner_info_for_regid(regid, callback) {
-  var query = "SELECT id, regids, uniqnames, businesshousenumber, businessstreetname, businesszip FROM corporate_owners WHERE $1 = ANY(regids)";
+  var query = "SELECT id,  array_length(anyarray_uniq(regids), 1) as buildingcount, uniqnames, businesshousenumber, businessstreetname, businesszip FROM corporate_owners WHERE $1 = ANY(regids)";
   do_query(query, [regid], callback);
 }
 
@@ -225,7 +224,7 @@ function do_query(sql, params, callback) {
 }
 
 // exports for testing
-/*
+
 module.exports = {
   address_search: address_search,
   parallel_query_abettor: parallel_query_abettor,
@@ -235,5 +234,5 @@ module.exports = {
   get_corporate_names: get_corporate_names
 };
 
-*/
+
 

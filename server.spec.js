@@ -34,7 +34,7 @@ describe('get_corporate_owner_info_for_regid', function(){
   it('should return correct info', function(done){
     s.get_corporate_owner_info_for_regid(112823, function(r){
       r.rows[0].id.should.eql(54457);
-      r.rows[0].regids.length.should.eql(19);
+      r.rows[0].buildingcount.should.eql(19);
       r.rows[0].businesszip.should.eql('10154');
       done();
     });
@@ -46,7 +46,7 @@ describe('parallel_query_abettor', function(){
     s.parallel_query_abettor(112823, function(r){
       r.regid.should.eql(112823);
       r.corporationname.should.eql('40 PARK AVENUE LLC');
-      r.regids.length.should.eql(19);
+      r.buildingcount.should.eql(19);
       r.businesszip.should.eql('10154');
       r.uniqnames.length.should.eql(19);
       done();
@@ -59,7 +59,7 @@ describe('address_search', function(){
     s.address_search('40 PARK AVENUE', '1', function(result){
       result.regid.should.eql(112823);
       result.corporationname.should.eql('40 PARK AVENUE LLC');
-      result.regids.length.should.eql(19);
+      result.buildingcount.should.eql(19);
       result.businesszip.should.eql('10154');
       result.uniqnames.length.should.eql(19);
       done();  
