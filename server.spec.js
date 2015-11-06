@@ -42,7 +42,6 @@ describe('get_corporate_owner_info_for_regid', function(){
 });
 
 describe('parallel_query_abettor', function(){
-  this.timeout(10000);
   it('should execute two queries in parallel', function(done){
     s.parallel_query_abettor(112823, function(r){
       r.regid.should.eql(112823);
@@ -54,3 +53,17 @@ describe('parallel_query_abettor', function(){
     });
   });
 });
+
+describe('address_search', function(){
+  it('should search 40 park avenue and return correct object', function(done){
+    s.address_search('40 PARK AVENUE', '1', function(result){
+      result.regid.should.eql(112823);
+      result.corporationname.should.eql('40 PARK AVENUE LLC');
+      result.regids.length.should.eql(19);
+      result.businesszip.should.eql('10154');
+      result.uniqnames.length.should.eql(19);
+      done();  
+    });
+  });
+});
+
