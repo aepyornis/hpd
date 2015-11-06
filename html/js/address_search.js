@@ -1,4 +1,3 @@
-
 // generates popup (modal) for each address
 function address_popup() {
   var address = $('#address-search-input').val();
@@ -6,8 +5,11 @@ function address_popup() {
   var url = 'address/' + bor + '/' + encodeURIComponent(address);
   get(url)
     .done(function(data){
-      console.log(data);
-      update_address_search_modal_html(data);
+      if (data.regid === 'error') {
+        deal_with_bad_address_not_in_db(address);
+      } else {
+        update_address_search_modal_html(data);        
+      }
     });
 
   $('#address-result').text(address);
@@ -19,4 +21,9 @@ function address_popup() {
     $('#business-address-result').text(data.businesshousenumber + ' ' + data.businessstreetname);
     $('#number-buildings-registered-result').text(data.buildingcount);
   }
+}
+
+function deal_with_bad_address_not_in_db(address) {
+  var html = '<h5><strong>' + address + '</strong> was not found in the database. Check your spelling or try again with a new address</h5>'
+  $('#address-search-popup .modal-body').html(html);
 }
