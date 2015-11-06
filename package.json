@@ -4,14 +4,16 @@
   "description": "Corporate Owners Hidden in HPD data",
   "main": "server.js",
   "dependencies": {
+    "lodash": "^3.10.1",
     "pg": "^4.4.3",
     "restify": "^4.0.3"
   },
-    "devDependencies": {
-        "async": "^1.5.0",
-        "superagent": "^1.4.0",
-        "underscore": "^1.8.3"
-    },
+  "devDependencies": {
+    "async": "^1.5.0",
+    "should": "^7.1.1",
+    "superagent": "^1.4.0",
+    "underscore": "^1.8.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"

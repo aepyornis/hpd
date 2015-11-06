@@ -1,6 +1,9 @@
 var restify = require('restify');
 var fs = require('fs');
 var pg = require('pg');
+var async = require('async');
+var _ = require('lodash');
+
 // db settings
   pg.defaults.database =  'hpd';
   pg.defaults.host = process.env.OPENSHIFT_POSTGRESQL_DB_HOST || 'localhost';
@@ -73,7 +76,7 @@ server.get('/id/buildings/:id', function(req, res, next){
 
 // get lat/lng of corporate_owner by id
 server.get('/id/latlng/:id', function(req,res,next){
-  get_corporate_owner_lat_lng(req.params.id, function(result){
+  get_corporate_owner_lat_lng(req.paramns.id, function(result){
     res.send(result.rows[0]);
     next();
   });
@@ -135,8 +138,56 @@ function corporate_name_search(name, callback) {
 }
 
 //address search
-function address_search(address, callback) {
+
+/*
+{
+  regid: 12324,
+  corporationname: 'blah LLC',
+  ownerID: 444,
+  regids:  [numbers]
+  uniqnames: [text],
+  businesshousenumber: '345'
+  businessstreetname: 'PARK Ave'
+  businesszip: '10101'
+}
+*/
+
+function address_search(address, bor) {
+  var add = /(\d+(?:-\d+)?)[ ](.+)/.exec(address);
+  var house = address[1];
+  var street = address[2];
+
+    //this is a async query that returns with the regid for the building searched
+  get_regid_for_address(house, street, bor, function(pgdata){
+    var regid = pgdata.rows[0].regid;
+    if (!regid) {
+      //handle bad address error
+      console.log('address search error!');
+      return null;
+    } else {
+      return parallel_query_abettor(regid);
+    }
+  });
+}
   
+// do two SQL queries in parallel, searching the contacts table for the corporation_name and retrieving info from the corporate_owners table
+function parallel_query_abettor(regid, whendone) {
+  async.parallel([
+    function corpname(callback) {
+      get_corporation_name_for_regid(regid, function(pgdata){
+         callback(null, pgdata.rows[0]);
+      });
+    },
+    function corpinfo(callback) {
+      get_corporate_owner_info_for_regid(regid, function(pgdata){
+        callback(null, pgdata.rows[0]);
+      });
+    }
+  ],
+  // results in an array of the data passed to it from the above callbacks. In our case that's two objects returned to us from postgres. We will combine the two objects and then have parallel_query_abettor return the object in the whendone callback.
+  function(err, results) {
+    whendone(_.extend(results[0], results[1], {'regid': regid}));
+  })
 }
 
 // address search queries
@@ -154,6 +205,10 @@ function get_corporation_name_for_regid(regid, callback){
   do_query(query, values, callback);
 }
 
+function get_corporate_owner_info_for_regid(regid, callback) {
+  var query = "SELECT id, regids, uniqnames, businesshousenumber, businessstreetname, businesszip FROM corporate_owners WHERE $1 = ANY(regids)";
+  do_query(query, [regid], callback);
+}
 
 // POSTGRES QUERY
 // input: string, array, callback
@@ -176,4 +231,17 @@ function do_query(sql, params, callback) {
 }
 
 //get_regid_for_address('40', 'PARK AVENUE', '1', function(data){console.log(data.rows[0].regid)});
-get_corporation_name_for_regid(112823, function(data){console.log(data.rows)});
+//get_corporation_name_for_regid(112823, function(data){console.log(data.rows)});
+//get_corporate_owner_for_regid(112823, function(x){console.log(x.rows);});
+
+//console.log(address_search('40 PARK AVENUE', '1'));
+
+module.exports = {
+  address_search: address_search,
+  parallel_query_abettor: parallel_query_abettor,
+  get_regid_for_address: get_regid_for_address,
+  get_corporation_name_for_regid: get_corporation_name_for_regid,
+  get_corporate_owner_info_for_regid: get_corporate_owner_info_for_regid,
+  get_corporate_names: get_corporate_names
+};
+
