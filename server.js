@@ -129,8 +129,6 @@ function corporate_name_search(name, callback) {
   do_query(query, a, callback);
 }
 
-
-
 //address search
 
 //this object is what's passed to the callback of address_search
@@ -143,7 +141,8 @@ function corporate_name_search(name, callback) {
   uniqnames: [text],
   businesshousenumber: '345'
   businessstreetname: 'PARK Ave'
-  businesszip: '10101'
+  businesszip: '10101',
+  status: "ok"
 }
 */
 
@@ -157,7 +156,7 @@ function address_search(address, bor, callback) {
   get_regid_for_address(house, street, bor, function(pgdata){
     if (pgdata.rowCount === 0) {
       //handle address not in database
-      var error_message = {'regid': 'error', 'message': 'No address found in database'};
+      var error_message = {'regid': 'error', 'message': 'No address found in database', 'status': 'No registration'};
       callback(error_message);
     } else {
       var regid = pgdata.rows[0].regid;
@@ -171,18 +170,36 @@ function parallel_query_abettor(regid, whendone) {
   async.parallel([
     function corpname(callback) {
       get_corporation_name_for_regid(regid, function(pgdata){
-         callback(null, pgdata.rows[0]);
+        if (pgdata.rowCount === 0) {
+          callback(null, null);
+        } else {
+          callback(null, pgdata.rows[0]);
+        }
+         
       });
     },
     function corpinfo(callback) {
       get_corporate_owner_info_for_regid(regid, function(pgdata){
-        callback(null, pgdata.rows[0]);
+        if (pgdata.rowCount === 0) {
+          callback(null, null);
+        } else {
+          callback(null, pgdata.rows[0]);
+        }
       });
     }
   ],
   // Results is an array from the data passed to it from the callback of each parallel function. In our case, it's two objects returned to us from postgres. We combine the two objects and then have parallel_query_abettor return the object in the whendone callback.
    function(err, results) {
-    whendone(_.extend(results[0], results[1], {'regid': regid}));
+     // if there is a registration but no 'corporate owner', query returns blank
+     if (results[0] === null || results[1] === null) {
+       whendone({
+         'regid': regid,
+         'status': 'No corporate owner'
+       });
+     } else {
+       whendone(_.extend(results[0], results[1], {'regid': regid, 'status': 'ok'}));
+     }
+    
    });
 }
   
@@ -190,6 +207,7 @@ function parallel_query_abettor(regid, whendone) {
 function normalize_street_name(street) {
   //remove periods
   var normalized = street
+        .toUpperCase()
         .replace(/\./g,'')
         .replace(/ (?:LA|LN)( (?:S|N|E|W).*)?$/g, ' LANE$1')
         .replace(/ PL( (?:S|N|E|W).*)?$/g, ' PLACE$1')
@@ -258,6 +276,5 @@ module.exports = {
   get_corporate_names: get_corporate_names,
   normalize_street_name: normalize_street_name
 };
-
 
 

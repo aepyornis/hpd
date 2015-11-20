@@ -28,7 +28,8 @@
               span(aria-hidden='true') ×
             h4.modal-title Modal title
           .modal-body
-            .info.show.text-center
+            .info-loading
+            .info.text-center
                 h5 
                   strong #[span(id="address-result") address] 
                   | is registered to 
@@ -41,9 +42,11 @@
                   strong #[span(id="number-buildings-registered-result") ...]  
                   | buildings registered  at that address
             .modal-corp-list
-              p Loading buildings ... 
-            #address-search-modal-map(style="max-width: 100%")
+            .modal-corp-list-loading
+              p Loading buildings ...
+            .modal-map-loading
               p Loading map...
+            #address-search-modal-map(style="max-width: 100%")
             .modal-error.hidden
           .modal-footer
             button.btn.btn-default(type='button', data-dismiss='modal') Close
