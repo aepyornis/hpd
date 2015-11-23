@@ -48,9 +48,9 @@ html(lang='en')
           li
             a(href='#table') Table
           li
-            a(href='#results') Results
-          li
             a(href='#lookup') Landlord Lookup
+          li
+            a(href='#results') Results
           li
             a(href='#violations') Violations
           li
@@ -84,6 +84,7 @@ html(lang='en')
                     th Zip
                     th Number of Registrations (~buildings)
                     th Unique Corporations Registered
+          include search.jade
           .row
             .col-lg-10
               a(name='results')
@@ -95,7 +96,6 @@ html(lang='en')
               h4 277 Classon Ave
               p Exactly who this is I don't know yet, but they are clearly a major player in Brooklyn Real Estate with 119 buildings.
               h2 More results to come!
-          include search.jade
           .row
             .col-lg-10
               a(name='violations')
