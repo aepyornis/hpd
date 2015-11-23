@@ -67,7 +67,7 @@ server.get('/id/buildings/:id', function(req, res, next){
 
 // get lat/lng of corporate_owner by id
 server.get('/id/latlng/:id', function(req,res,next){
-  get_corporate_owner_lat_lng(req.paramns.id, function(result){
+  get_corporate_owner_lat_lng(req.params.id, function(result){
     res.send(result.rows[0]);
     next();
   });
