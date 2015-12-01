@@ -14,10 +14,10 @@ function address_popup() {
       } else {
         update_address_search_modal_html(data);
         show_info();
+        show_list_and_map();
         map(data.id, '#address-search-modal-map', function(map, id) {
           add_buildings(map, id, function(list_of_buildings) {
             $('#address-search-popup .modal-corp-list').html(genereate_building_list_html(list_of_buildings));
-            show_list_and_map();
           });
         });
       }
