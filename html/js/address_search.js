@@ -14,12 +14,12 @@ function address_popup() {
       } else {
         update_address_search_modal_html(data);
         show_info();
-        mapid = data.id;
-        get('/id/buildings/' + data.id)
-          .done(function(data){
-            update_buildings_list_and_add_map(data);
+        map(data.id, '#address-search-modal-map', function(map, id) {
+          add_buildings(map, id, function(list_of_buildings) {
+            $('#address-search-popup .modal-corp-list').html(genereate_building_list_html(list_of_buildings));
             show_list_and_map();
           });
+        });
       }
     });
 
@@ -54,12 +54,7 @@ function address_popup() {
     $('#address-search-popup .modal-error').addClass('show').removeClass('hidden');
   }
   
-  function update_buildings_list_and_add_map(ajax_data) {
-    $('#address-search-popup .modal-corp-list').html(genereate_building_list_html(ajax_data));
-    map(mapid, '#address-search-modal-map');
-  }
-
-  function genereate_building_list_html(buildings) {
+   function genereate_building_list_html(buildings) {
     var html = '<ul>';
     buildings.forEach(function(building){
       html += '<li>' + building.h + ' ' + building.st + ', ' + building.b + ' (' + building.corp + ')' + '</li>';

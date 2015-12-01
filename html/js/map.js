@@ -3,12 +3,12 @@ function map(id, mapdiv, callback) {
   var mapID = 'map-' + id;
   $(mapdiv).html('<div id="' + mapID +'"></div>');
   $("#" + mapID).css('height', '350px');
-  $("#" + mapID).css('width', '100%');
+  $("#" + mapID).css('width', '98%');
   
   var map = L.map(mapID).setView([40.731864, -73.935288], 11);
   L. tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{}).addTo(map);
 
-  if (callback && typeof callback == 'function') {
+  if (callback && typeof callback === 'function') {
     callback(map, id);
   }
 }
@@ -21,6 +21,7 @@ var circleMarkerStyle = {
   color: '#fff'
 }
 
+// input: leaflet-map object, id, callback(ajax_data)
 function add_buildings(map, id, callback) {
    get('id/buildings/'+ id)
     .done(add_all_the_buildings_to_the_map)
@@ -31,10 +32,10 @@ function add_buildings(map, id, callback) {
       if (building.lat && building.lng) {
         put_a_building_on_the_map([building.lat, building.lng], circleMarkerStyle, building);
       }
-      if (callback && typeof callback == 'function') {
-        callback();
-      }
     });
+    if (callback && typeof callback === 'function') {
+      callback(list_of_buildings);
+    }
   }
   
   function put_a_building_on_the_map(geo, style, building) {

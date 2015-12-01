@@ -28,7 +28,6 @@ function names_popup(id, address) {
 
 // array -> replaces .modal-corp-list html
 function insert_names(ajax_data) {
-    console.log(ajax_data);
     var html = generate_corporate_names_html(ajax_data);
     $('.modal-corp-list').html(html);
 }
