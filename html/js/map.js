@@ -1,5 +1,5 @@
 // creates map in #map-div
-function map(id, mapdiv) {
+function map(id, mapdiv, callback) {
   var mapID = 'map-' + id;
   $(mapdiv).html('<div id="' + mapID +'"></div>');
   $("#" + mapID).css('height', '350px');
@@ -8,8 +8,9 @@ function map(id, mapdiv) {
   var map = L.map(mapID).setView([40.731864, -73.935288], 11);
   L. tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{}).addTo(map);
 
-  add_hq(map, id);
-  add_buildings(map, id);
+  if (callback && typeof callback == 'function') {
+    callback(map, id);
+  }
 }
 
 // style for buildings marker
@@ -20,7 +21,7 @@ var circleMarkerStyle = {
   color: '#fff'
 }
 
-function add_buildings(map, id) {
+function add_buildings(map, id, callback) {
    get('id/buildings/'+ id)
     .done(add_all_the_buildings_to_the_map)
     .fail(ajax_fail);
@@ -29,6 +30,9 @@ function add_buildings(map, id) {
     list_of_buildings.forEach(function(building){
       if (building.lat && building.lng) {
         put_a_building_on_the_map([building.lat, building.lng], circleMarkerStyle, building);
+      }
+      if (callback && typeof callback == 'function') {
+        callback();
       }
     });
   }
@@ -51,8 +55,10 @@ function add_hq(map, id) {
     .done(add_marker_to_map_and_pan);
 
   function add_marker_to_map_and_pan(geo) {
-    L.marker(geo).addTo(map);
-    map.panTo(geo);
+    if (geo) {
+      L.marker(geo).addTo(map);
+      map.panTo(geo);
+    }
   }
 
 }

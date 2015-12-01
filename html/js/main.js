@@ -26,7 +26,10 @@ $(document).ready(function() {
     var address = table.row(index[0]).data().a;
 
     names_popup(id, address);
-    map(id, '#modal-map');
+    map(id, '#modal-map', function(map, id){
+      add_hq(map, id);
+      add_buildings(map, id);
+    });
   });
 
   $('#address-search-btn').click(function(){
