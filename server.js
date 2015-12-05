@@ -30,7 +30,14 @@ server.use(function(req, res, next){
 ///////////
 //routes//
 /////////
- 
+
+server.get('/contacts/:bbl', function(req,res, next){
+  contacts_search_by_bbl(req.params.bbl, function(result){
+    res.send(result.rows);
+    next();
+  });
+});
+
 // search by corporation name
 server.get('/corplookup/:name', function(req, res, next){
   corporate_name_search(req.params.name, function(result){
@@ -82,6 +89,11 @@ server.get(/.*/, restify.serveStatic({
 //////////////
 //FUNCTIONS//
 ////////////
+
+function contacts_search_by_bbl(bbl, callback) {
+  var query = 'SELECT * FROM (SELECT registrationid FROM registrations where bbl = $1) as r JOIN contacts  on contacts.registrationid = r.registrationid';
+  do_query(query, [bbl], callback);
+}
 
 function get_buildings_latlng(id, callback){
   var query = 'SELECT r. lat, r. lng FROM (select unnest (regids) as regid from corporate_owners where id = $1) as x JOIN registrations as r on r. registrationid = x. regid WHERE r. lat IS NOT NULL';
