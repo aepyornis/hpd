@@ -18,7 +18,7 @@ as SELECT
  
 */
 
-create table registrations_grouped_by_bbl
+create table hpd.registrations_grouped_by_bbl
 as SELECT
    first(housenumber) as housenumber,
    first(streetname) as streetname,
@@ -29,7 +29,7 @@ as SELECT
    registrationid,
    bbl
 FROM
-        registrations
+        hpd.registrations
 GROUP BY bbl, lat, lng, registrationid;
 
-create index on registrations_grouped_by_bbl (registrationid);
+create index on hpd.registrations_grouped_by_bbl (registrationid);

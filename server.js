@@ -3,12 +3,13 @@ var fs = require('fs');
 var pg = require('pg');
 var async = require('async');
 var _ = require('lodash');
+var config = require('./config');
 
 // db settings
   pg.defaults.database =  'hpd';
   pg.defaults.host = process.env.OPENSHIFT_POSTGRESQL_DB_HOST || 'localhost';
-  pg.defaults.user = process.env.OPENSHIFT_POSTGRESQL_DB_USERNAME || 'mrbuttons';
-  pg.defaults.password = process.env.OPENSHIFT_POSTGRESQL_DB_PASSWORD || 'mrbuttons';
+  pg.defaults.user = process.env.OPENSHIFT_POSTGRESQL_DB_USERNAME || config.pg.user;
+  pg.defaults.password = process.env.OPENSHIFT_POSTGRESQL_DB_PASSWORD || config.pg.password;
   if (process.env.OPENSHIFT_POSTGRESQL_DB_PORT) {
     pg.defaults.port = process.env.OPENSHIFT_POSTGRESQL_DB_PORT;
   }

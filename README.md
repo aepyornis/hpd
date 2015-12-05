@@ -8,6 +8,12 @@ The data for this website was retrieved from: [HPD open data](http://www1.nyc.go
 
 To setup database run or modify: setup.sh
 
+## Setup
+
+```brew install pgql
+npm install
+pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+bash setup.sh```
 
 
 

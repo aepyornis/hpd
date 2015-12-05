@@ -1,6 +1,11 @@
 BEGIN;
 
-create table registrations (
+CREATE SCHEMA IF NOT EXISTS hpd;
+
+drop table if EXISTS contacts;
+drop table if EXISTS registrations;
+
+create table IF NOT EXISTS hpd.registrations (
        registrationID integer,
        buildingID integer,
        boroID smallint,
@@ -19,7 +24,7 @@ create table registrations (
        registrationenddate date
 );
 
-create table contacts (
+create table IF NOT EXISTS hpd.contacts (
        registrationcontactID integer,
        registrationID integer,
        registrationcontacttype text,
@@ -36,12 +41,5 @@ create table contacts (
        BusinessState text,
        BusinessZip text
 );
-
--- these paths need to be updated
-COPY registrations FROM 'C:\\cygwin64\\home\\ziggy\\code\\hpd\\data\\r.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE) ;
---COPY registrations FROM '/var/lib/openshift/562fedcc89f5cfb811000141/app-root/repo/data/Registration20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE) ;
-
-COPY contacts FROM 'C:\\cygwin64\\home\\ziggy\\code\\hpd\\data\\c.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
---COPY contacts FROM '/var/lib/openshift/562fedcc89f5cfb811000141/app-root/repo/data/RegistrationContact20150930.txt'  (DELIMITER '|', FORMAT CSV, HEADER TRUE);
 
 COMMIT;

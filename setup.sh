@@ -5,43 +5,60 @@
 
 # create the database if needed
 # createdb hpd
+set -e
 
 # file paths will need to be changed in schema.sql, google_geocode.sql, and registrations_geocode.sql  
 
-# create table and COPY data
+printf 'create table and COPY data'
 psql -d hpd -f 'sql/schema.sql'
+wd=${PWD##*/} 
 
-# cleanup contact addresses:
-psql -d hpd -f 'sql/address_cleanup.sql'
+if [ ! -f registrations.zip ]; then
+	printf 'Downloading data'
+	wget -O registrations.zip http://www1.nyc.gov/assets/hpd/downloads/misc/Registrations20151201.zip
+fi
+if [ ! -f Registration20151130.txt ]; then
+	unzip registrations.zip
+fi
 
-# cleanup registration addresses
-psql -d hpd -f 'sql/registrations_clean_up.sql'
+# printf 'Cleaning data files'
+# sed -i '' 's/\"//g' RegistrationContact20151130.txt
 
-# add function anyarray_uniq()
+printf 'Inserting data'
+psql -d hpd -c "COPY hpd.registrations FROM '$(pwd)/Registration20151130.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
+psql -d hpd -c "COPY hpd.contacts FROM '$(pwd)/contacts.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
+
+# printf 'cleanup contact addresses'
+# psql -d hpd -f 'sql/address_cleanup.sql'
+
+# printf 'cleanup registration addresses'
+# psql -d hpd -f 'sql/registrations_clean_up.sql'
+
+printf 'Add function anyarray_uniq()'
 psql -d hpd -f 'sql/anyarray_uniq.sql'
 
-# add function anyarray_remove_null
+printf 'Add function anyarray_remove_null'
 psql -d hpd -f 'sql/anyarray_remove_null.sql'
 
-# adds aggregate functions first() and last()
+printf 'Add aggregate functions first() and last()'
 psql -d hpd -f 'sql/first_last.sql'
 
-# create corporate_owners table
+printf 'Creating corporate_owners table'
 psql -d hpd -f 'sql/corporate_owners.sql'
 
-# geocodes corporate_owners
-#psql -d hpd -f 'sql/google_geocode.sql'
+printf 'Geocodes corporate_owners'
+psql -d hpd -f 'sql/google_geocode.sql'
 
-# geocodes registrations via pluto
+printf 'Geocodes registrations via pluto'
 psql -d hpd -f 'sql/registrations_geocode.sql'
 
-# creates view registrations_grouped_by_bbl
-psql -d hpd -f 'registrations_grouped_by_bbl.sql'
+printf 'Creating view registrations_grouped_by_bbl'
+psql -d hpd -f 'sql/registrations_grouped_by_bbl.sql'
 
-# index
+printf 'Indexing tables'
 psql -d hpd -f 'sql/index.sql'
 
-# create top500.txt file
-mkdir html/data
+printf 'Creating top500.txt file'
+mkdir -p html/data
 node get_corporate_owners_json.js 
 

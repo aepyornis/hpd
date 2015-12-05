@@ -2,11 +2,12 @@
 // edit the pg connection details, query, and fileName as needed.
 var fs = require('fs');
 var pg = require('pg');
+var config = require('./config');
 
 if (process.env.OPENSHIFT_POSTGRESQL_DB_URL) {
-  var conString = process.env.OPENSHIFT_POSTGRESQL_DB_URL + "/hpd"
+  var conString = process.env.OPENSHIFT_POSTGRESQL_DB_URL + "/hpd";
 } else {
-  var conString = "postgres://mrbuttons:mrbuttons@localhost/hpd";
+  var conString = "postgres://" + config.pg.user + ":" + config.pg.password +"@localhost/hpd";
 }
 
 var client = new pg.Client(conString);
