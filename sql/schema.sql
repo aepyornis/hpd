@@ -2,8 +2,9 @@ BEGIN;
 
 CREATE SCHEMA IF NOT EXISTS hpd;
 
-drop table if EXISTS contacts;
-drop table if EXISTS registrations;
+drop table if EXISTS hpd.contacts;
+drop table if EXISTS hpd.registrations;
+DROP TABLE IF EXISTS hpd.bbl_lookup;
 
 create table IF NOT EXISTS hpd.registrations (
        registrationID integer,
@@ -40,6 +41,12 @@ create table IF NOT EXISTS hpd.contacts (
        BusinessCity text,
        BusinessState text,
        BusinessZip text
+);
+
+CREATE TABLE IF NOT EXISTS hpd.bbl_lookup (
+       lat numeric,
+       lng numeric,
+       bbl text PRIMARY KEY
 );
 
 COMMIT;
