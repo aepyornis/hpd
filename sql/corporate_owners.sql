@@ -25,6 +25,10 @@ ALTER TABLE corporate_owners ADD COLUMN uniqnames text[];
 
 UPDATE corporate_owners SET uniqnames = corporationnames;
 
+alter table corporate_owners add column uniqregids int[];
+
+update corporate_owners set uniqregids = anyarray_uniq(regids);
+
 -- there appears to be at least row that causes an error with anyarray_unique, which is 'fixed' by the WHERE clause here.
 UPDATE corporate_owners SET uniqnames = anyarray_uniq(corporationnames) WHERE array_length(corporationnames, 1) > 0;
 
