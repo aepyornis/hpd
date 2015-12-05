@@ -26,8 +26,6 @@ ALTER TABLE hpd.corporate_owners ADD COLUMN uniqnames text[];
 
 UPDATE hpd.corporate_owners SET uniqnames = corporationnames;
 
-alter table hpd.corporate_owners add column uniqregids int[];
-
 update hpd.corporate_owners set uniqregids = anyarray_uniq(regids);
 
 -- there appears to be at least row that causes an error with anyarray_unique, which is 'fixed' by the WHERE clause here.

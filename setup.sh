@@ -21,9 +21,6 @@ if [ ! -f Registration20151130.txt ]; then
 	unzip registrations.zip
 fi
 
-# printf 'Cleaning data files'
-# sed -i '' 's/\"//g' RegistrationContact20151130.txt
-
 printf 'Inserting data'
 psql -d hpd -c "COPY hpd.registrations FROM '$(pwd)/Registration20151130.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
 psql -d hpd -c "COPY hpd.contacts FROM '$(pwd)/contacts.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
@@ -62,4 +59,3 @@ psql -d hpd -f 'sql/index.sql'
 printf 'Creating top500.txt file'
 mkdir -p html/data
 node get_corporate_owners_json.js 
-
