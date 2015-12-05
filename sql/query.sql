@@ -107,7 +107,7 @@ where housenumber = $1 AND streetname = $2 AND boroid = $3;
 --get corporation name for regid
 select corporationname
 from contacts
-where registrationcontacttype = 'CorporateOwner' and registrationid = $1
+where registrationid = $1
 
 
 --get corporate_owner id, regids, uniqnames, businesshousenumber, businessstreetname, zip
@@ -135,7 +135,7 @@ WHERE (
       BusinessHouseNumber IS NOT NULL
       AND BusinessStreetName IS NOT NULL
       AND BusinessZip IS NOT NULL
-      ) AND (registrationcontacttype = 'CorporateOwner')
+      ) 
 GROUP BY
       BusinessHouseNumber,
       BusinessStreetName,
