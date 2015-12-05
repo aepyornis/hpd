@@ -31,8 +31,16 @@ server.use(function(req, res, next){
 //routes//
 /////////
 
+//get contacts for a bbl
 server.get('/contacts/:bbl', function(req,res, next){
   contacts_search_by_bbl(req.params.bbl, function(result){
+    res.send(result.rows);
+    next();
+  });
+});
+
+server.get('/corporateowner/:regid', function(req, res, next){
+  get_info_on_corporate_owner(req.params.regid, function(result){
     res.send(result.rows);
     next();
   });
@@ -89,6 +97,12 @@ server.get(/.*/, restify.serveStatic({
 //////////////
 //FUNCTIONS//
 ////////////
+
+
+function get_info_on_corporate_owner(regid, callback) {
+  var query = 'SELECT id, businesshousenumber, businessstreetname, businesszip, businessapartment, numberOfContacts, uniqnames, array_length(uniqnames, 1) as num_uniqnames, uniqregids from corporate_owners where $1  = ANY(regids)';
+  do_query(query, [regid], callback);
+}
 
 function contacts_search_by_bbl(bbl, callback) {
   var query = 'SELECT * FROM (SELECT registrationid FROM registrations where bbl = $1) as r JOIN contacts  on contacts.registrationid = r.registrationid';
