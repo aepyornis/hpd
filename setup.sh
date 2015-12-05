@@ -1,4 +1,7 @@
+
 #!/bin/bash
+
+# data fold can be downloaded here: https://drive.google.com/file/d/0BxVeQ41wSvbuS2I1SENqYkVyX3c/view?usp=sharing
 
 # create the database if needed
 # createdb hpd
@@ -27,7 +30,7 @@ psql -d hpd -f 'sql/first_last.sql'
 psql -d hpd -f 'sql/corporate_owners.sql'
 
 # geocodes corporate_owners
-psql -d hpd -f 'sql/google_geocode.sql'
+#psql -d hpd -f 'sql/google_geocode.sql'
 
 # geocodes registrations via pluto
 psql -d hpd -f 'sql/registrations_geocode.sql'
@@ -41,3 +44,4 @@ psql -d hpd -f 'sql/index.sql'
 # create top500.txt file
 mkdir html/data
 node get_corporate_owners_json.js 
+
