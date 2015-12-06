@@ -10,9 +10,13 @@ To setup database run or modify: setup.sh
 
 ## Setup
 
-```brew install pgql
+On OSX:
+
+Start up Postgres and edit config.js with your postgres password. 
+
+```
 npm install
-pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+
 bash setup.sh```
 
 
