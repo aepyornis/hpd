@@ -26,11 +26,11 @@ psql -d hpd -c "COPY hpd.registrations FROM '$(pwd)/Registration20151130.txt' (D
 psql -d hpd -c "COPY hpd.contacts FROM '$(pwd)/contacts.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
 psql -d hpd -c "COPY hpd.bbl_lookup FROM '$(pwd)/bbl_lat_lng.txt' (FORMAT CSV,  HEADER TRUE);"
 
-# printf 'cleanup contact addresses'
-# psql -d hpd -f 'sql/address_cleanup.sql'
+printf 'cleanup contact addresses'
+psql -d hpd -f 'sql/address_cleanup.sql'
 
-# printf 'cleanup registration addresses'
-# psql -d hpd -f 'sql/registrations_clean_up.sql'
+printf 'cleanup registration addresses'
+psql -d hpd -f 'sql/registrations_clean_up.sql'
 
 printf 'Add function anyarray_uniq()'
 psql -d hpd -f 'sql/anyarray_uniq.sql'
