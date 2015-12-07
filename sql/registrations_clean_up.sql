@@ -18,7 +18,6 @@ UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' LA$', ' 
 UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' LN$', ' LANE', 'g');
 UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' PL$', ' PLACE', 'g');
 UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' ST$| STR$', ' STREET', 'g');
-UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' ST')
 UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' RD$', ' ROAD', 'g');
 UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' PKWY$', 'PARKWAY', 'g');
 UPDATE hpd.registrations SET streetname = regexp_replace( streetname, ' PKWY ', ' PARKWAY ', 'g');
