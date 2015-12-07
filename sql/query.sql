@@ -3,7 +3,7 @@ select count(DISTINCT registrationcontactId) from contacts;
 -- rank in order
 select registrationcontactID,
        count(registrationcontactID) as c
-FROM contacts
+FROM hpd.contacts
 GROUP BY registrationcontactID
 ORDER BY c DESC;
 
@@ -11,20 +11,20 @@ ORDER BY c DESC;
 select BusinessHouseNumber as house,
        BusinessStreetName as street,
        count(*) as count
-FROM contacts
+FROM hpd.contacts
 GROUP BY BusinessHouseNumber, BusinessStreetName
 ORDER BY count DESC;
 
 -- List of contact types
 select registrationcontacttype,
        count (*) as count
-FROM contacts
+FROM hpd.contacts
 GROUP BY registrationcontacttype
 
 -- most common Corporation Names
 select CorporationName,
        count(*) as count
-FROM contacts
+FROM hpd.contacts
 GROUP BY CorporationName
 ORDER BY count desc
 
@@ -35,7 +35,7 @@ SELECT BusinessHouseNumber,
        BusinessState,
        BusinessZip,
        count (*) as count
-FROM contacts
+FROM hpd.contacts
 GROUP BY BusinessHouseNumber,
          BusinessStreetName,
          BusinessCity,
@@ -48,7 +48,7 @@ SELECT BusinessHouseNumber,
        BusinessStreetName,
        BusinessZip,
        count (*) as count
-FROM contacts
+FROM hpd.contacts
 GROUP BY BusinessHouseNumber,
          BusinessStreetName,
          BusinessZip
@@ -59,7 +59,7 @@ SELECT BusinessHouseNumber,
        BusinessStreetName,
        BusinessCity,
        count (*) as count
-FROM contacts
+FROM hpd.contacts
 GROUP BY BusinessHouseNumber,
          BusinessStreetName,
          BusinessCity
@@ -67,7 +67,7 @@ ORDER BY count desc
 
 -- nulls:
 select COUNT(*)
-FROM contacts
+FROM hpd.contacts
 WHERE BusinessHouseNumber IS NULL
       AND BusinessStreetName IS NULL
       AND BusinessApartment IS NULL
@@ -100,13 +100,13 @@ WHERE x.corpname ilike $1
 
 --Get regid for address (house number, streetname, boroid)
 SELECTregistrationid
-from registrations
+from hpd.registrations
 where housenumber = $1 AND streetname = $2 AND boroid = $3;
 
 
 --get corporation name for regid
 select corporationname
-from contacts
+from hpd.contacts
 where registrationcontacttype = 'CorporateOwner' and registrationid = $1
 
 
@@ -117,7 +117,7 @@ SELECT id,
        businesshousenumber,
        businessstreetname,
        businesszipzip
-FROM corporate_owners
+FROM hpd.corporate_owners
 WHERE $1 = ANY(regids)
 
 
@@ -130,7 +130,7 @@ SELECT BusinessHouseNumber,
        anyarray_remove_null(array_agg(CorporationName)) as corporationnames,
        array_agg(registrationID) as regids,
        anyarray_uniq(array_agg(registrationID)) as uniqregids
-FROM contacts
+FROM hpd.contacts
 WHERE (
       BusinessHouseNumber IS NOT NULL
       AND BusinessStreetName IS NOT NULL
@@ -151,7 +151,7 @@ SELECT  first(housenumber) as housenumber,
         lng,
         registrationid,
         bbl
-FROM registrations
+FROM hpd.registrations
 GROUP BY
       bbl,
       lat,
@@ -164,18 +164,18 @@ SELECT businesshousenumber || ' ' || businessstreetname as a,
        array_length(anyarray_uniq(regids), 1) as num,
        id,
        array_length(uniqnames, 1) as nc
-FROM corporate_owners
+FROM hpd.corporate_owners
 ORDER BY num DESC
 LIMIT 500
 
 ---GET Lat,Lng from Corporate Owners
 SELECT lat,
        lng
-FROM corporate_owners
+FROM hpd.corporate_owners
 WHERE id = $1;
 
 ---Get Buildings by Corporate Owner ID
-SELECT corporate_owner.regid as regid,
+SELECT hpd.corporate_owner.regid as regid,
        r.housenumber as h,
        r.streetname as st,
        r.zip as zip,
@@ -186,16 +186,16 @@ SELECT corporate_owner.regid as regid,
        corporationname as corp
 FROM (
      SELECT DISTINCT unnest(regids) as regid
-     FROM corporate_owners
+     FROM hpd.corporate_owners
      WHERE id = $1
 ) as corporate_owner
 JOIN (
      SELECT *
-     FROM contacts
+     FROM hpd.contacts
      WHERE registrationcontacttype = 'CorporateOwner'
 ) as c
   on corporate_owner.regid = c.registrationid
-JOIN registrations_grouped_by_bbl as r
+JOIN hpd.registrations_grouped_by_bbl as r
 on corporate_owner.regid = r.registrationid
 
 
@@ -211,22 +211,22 @@ r.bbl as bbl,
 corporationname as corp
 FROM (
 SELECT DISTINCT unnest(regids) as regid
-FROM corporate_owners
+FROM hpd.corporate_owners
 WHERE id = 58408
 ) as corporate_owner
 JOIN (
 SELECT *
-FROM contacts
+FROM hpd.contacts
 WHERE registrationcontacttype = 'CorporateOwner'
 ) as c
 on corporate_owner.regid = c.registrationid
-JOIN registrations_grouped_by_bbl_materialized as r
+JOIN hpd.registrations_grouped_by_bbl_materialized as r
 on corporate_owner.regid = r.registrationid
 
 
 
 CREATE MATERIALIZED VIEW
-registrations_grouped_by_bbl_materialized
+hpd.registrations_grouped_by_bbl_materialized
 as SELECT
 first(housenumber) as housenumber,
 first(streetname) as streetname,
@@ -239,27 +239,3 @@ bbl
 FROM
 registrations
 GROUP BY bbl, lat, lng, registrationid;
-
-
-
-
-
-
-
-
-
-
-
-
-y
-
-
-
-
-
-
-
-
-
- 
-29600.00..191770.59

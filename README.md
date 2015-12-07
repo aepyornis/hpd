@@ -8,6 +8,16 @@ The data for this website was retrieved from: [HPD open data](http://www1.nyc.go
 
 To setup database run or modify: setup.sh
 
+## Setup
+
+On OSX:
+
+Start up Postgres and edit config.js with your postgres password. 
+
+```
+npm install
+
+bash setup.sh```
 
 
 

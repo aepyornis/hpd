@@ -2,11 +2,12 @@
 // edit the pg connection details, query, and fileName as needed.
 var fs = require('fs');
 var pg = require('pg');
+var config = require('./config');
 
 if (process.env.OPENSHIFT_POSTGRESQL_DB_URL) {
-  var conString = process.env.OPENSHIFT_POSTGRESQL_DB_URL + "/hpd"
+  var conString = process.env.OPENSHIFT_POSTGRESQL_DB_URL + "/hpd";
 } else {
-  var conString = "postgres://mrbuttons:mrbuttons@localhost/hpd";
+  var conString = "postgres://" + config.pg.user + ":" + config.pg.password +"@localhost/hpd";
 }
 
 var client = new pg.Client(conString);
@@ -21,7 +22,7 @@ var client = new pg.Client(conString);
 //var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
 // this treats garden complexes as a single one. 
-var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
+var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM hpd.corporate_owners ORDER BY num DESC LIMIT 500";
 
 //var geocode_query = "SELECT businesshousenumber as house, businessstreetname as street, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
 
