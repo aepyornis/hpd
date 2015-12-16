@@ -268,7 +268,7 @@ function get_corporation_name_for_regid(regid, callback){
 }
 
 function get_corporate_owner_info_for_regid(regid, callback) {
-  var query = "SELECT id,  array_length(anyarray_uniq(regids), 1) as buildingcount, uniqnames, businesshousenumber, businessstreetname, businesszip FROM hpd.corporate_owners WHERE $1 = ANY(regids)";
+  var query = "SELECT id,  array_length(anyarray_uniq(regids), 1) as buildingcount, uniqnames, businesshousenumber, businessstreetname, businesszip, businessapartment FROM hpd.corporate_owners WHERE $1 = ANY(regids)";
   do_query(query, [regid], callback);
 }
 

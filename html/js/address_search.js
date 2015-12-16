@@ -30,9 +30,10 @@ function address_popup() {
 
   function update_address_search_modal_html(data) {
       // update spans with result from AJAX
-      $('.corporationname-result').text(data.corporationname);
-      $('#business-address-result').text(data.businesshousenumber + ' ' + data.businessstreetname);
-      $('#number-buildings-registered-result').text(data.buildingcount);
+    $('.corporationname-result').text(data.corporationname);
+    var businessapartment = data.businessapartment ? (", " + data.businessapartment) : "";
+    $('#business-address-result').text(data.businesshousenumber + ' ' + data.businessstreetname + businessapartment);
+    $('#number-buildings-registered-result').text(data.buildingcount);
    }
 
   function deal_with_bad_address_not_in_db(address) {
