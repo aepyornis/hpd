@@ -10,14 +10,15 @@ To setup database run or modify: setup.sh
 
 ## Setup
 
-On OSX:
+On OSX & linux:
 
 Start up Postgres and edit config.js with your postgres password. 
 
 ```
 npm install
 
-bash setup.sh```
+bash setup.sh
+```
 
 
 

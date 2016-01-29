@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # data fold can be downloaded here: https://drive.google.com/file/d/0BxVeQ41wSvbuS2I1SENqYkVyX3c/view?usp=sharing
@@ -13,17 +12,17 @@ printf 'create table and COPY data'
 psql -d hpd -f 'sql/schema.sql'
 wd=${PWD##*/} 
 
-if [ ! -f registrations.zip ]; then
-	printf 'Downloading data'
-	wget -O registrations.zip http://www1.nyc.gov/assets/hpd/downloads/misc/Registrations20151201.zip
-fi
-if [ ! -f Registration20151130.txt ]; then
-	unzip registrations.zip
-fi
+# if [ ! -f registrations.zip ]; then
+# 	printf 'Downloading data'
+# 	wget -O registrations.zip http://www1.nyc.gov/assets/hpd/downloads/misc/Registrations20151201.zip
+# fi
+# if [ ! -f Registration20151130.txt ]; then
+# 	unzip registrations.zip
+#fi
 
 printf 'Inserting data'
-psql -d hpd -c "COPY hpd.registrations FROM '$(pwd)/Registration20151130.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
-psql -d hpd -c "COPY hpd.contacts FROM '$(pwd)/contacts.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
+psql -d hpd -c "COPY hpd.registrations FROM '/home/michael/data/hpd/Registration20151130.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
+psql -d hpd -c "COPY hpd.contacts FROM '/home/michael/data/hpd/contacts.txt' (DELIMITER '|', FORMAT CSV, HEADER TRUE);"
 psql -d hpd -c "COPY hpd.bbl_lookup FROM '$(pwd)/bbl_lat_lng.txt' (FORMAT CSV,  HEADER TRUE);"
 
 printf 'cleanup contact addresses'
@@ -44,8 +43,8 @@ psql -d hpd -f 'sql/first_last.sql'
 printf 'Creating corporate_owners table'
 psql -d hpd -f 'sql/corporate_owners.sql'
 
-printf 'Geocodes corporate_owners'
-psql -d hpd -f 'sql/google_geocode.sql'
+# printf 'Geocodes corporate_owners'
+# psql -d hpd -f 'sql/google_geocode.sql'
 
 printf 'Geocodes registrations via pluto'
 psql -d hpd -f 'sql/registrations_geocode.sql'
@@ -55,6 +54,9 @@ psql -d hpd -f 'sql/registrations_grouped_by_bbl.sql'
 
 printf 'Indexing tables'
 psql -d hpd -f 'sql/index.sql'
+
+printf 'Installing NPM modules'
+npm install pg restify async lodash
 
 printf 'Creating top500.txt file'
 mkdir -p html/data
