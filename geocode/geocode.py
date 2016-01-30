@@ -22,7 +22,7 @@ import csv
 APP_ID = os.environ['GEOCLIENT_APP_ID']
 APP_KEY = os.environ['GEOCLIENT_APP_KEY']
 
-p = subprocess.Popen('psql -d hpd -c "SELECT id, BusinessHouseNumber,BusinessStreetName,BusinessZip FROM hpd.corporate_owners" --no-align -t  > corporate_owners.CV', shell=True)
+p = subprocess.Popen('psql -d hpd -c "SELECT id, BusinessHouseNumber,BusinessStreetName,BusinessZip FROM hpd.corporate_owners" --no-align -t  > corporate_owners.csv', shell=True)
 
 p.wait()
 
@@ -39,8 +39,8 @@ with open('geocoded.csv', 'w') as geocode_file:
             id = row[0]
             house_number = row[1]
             street = row[2]
-            zip = row[3]
-            info = g.address_zip(house_number, street, zip)
+            zipcode = row[3]
+            info = g.address_zip(house_number, street, zipcode)
             try:
                 bbl = info['bbl']
                 xcoord = info['xCoordinate']
@@ -50,6 +50,10 @@ with open('geocoded.csv', 'w') as geocode_file:
                 writer.writerow(row + [bbl, xcoord, ycoord, council_district, community_district])
             except KeyError:
                 ERRORS += 1
+                try:
+                    print("error: " + str(house_number) + " " + str(street) + " - " + info['message'])
+                except KeyError:
+                    print(info)
             finally:
                 PROCESSED += 1
                 if PROCESSED % 250 == 0:
