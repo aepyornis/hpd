@@ -2,7 +2,7 @@
 
 Displays the top 'corporate owners' in the HPD building registration database
 
-[Click here to see it online](https://hpd-elephantbird.rhcloud.com/)
+[Click here to see it online](https://hpd.ziggy.space/)
 
 The data for this website was retrieved from: [HPD open data](http://www1.nyc.gov/site/hpd/about/open-data.page)
 
