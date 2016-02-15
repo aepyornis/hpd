@@ -12,7 +12,9 @@ To setup database run or modify: setup.sh
 
 On OSX & linux:
 
-Start up Postgres and edit config.js with your postgres password. 
+Start up Postgres.
+
+Rename config.sample.js to config.js and fill it in with your postgres connection information. 
 
 ```
 npm install

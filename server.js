@@ -7,15 +7,15 @@ var config = require('./config');
 
 // db settings
   pg.defaults.database =  'hpd';
-  pg.defaults.host = process.env.OPENSHIFT_POSTGRESQL_DB_HOST || 'localhost';
-  pg.defaults.user = process.env.OPENSHIFT_POSTGRESQL_DB_USERNAME || config.pg.user;
-  pg.defaults.password = process.env.OPENSHIFT_POSTGRESQL_DB_PASSWORD || config.pg.password;
-  if (process.env.OPENSHIFT_POSTGRESQL_DB_PORT) {
-    pg.defaults.port = process.env.OPENSHIFT_POSTGRESQL_DB_PORT;
-  }
+  pg.defaults.host = 'localhost';
+  pg.defaults.user = config.pg.user;
+  pg.defaults.password = config.pg.password;
+  // change default port here if need to
+  // pg.defaults.port;
+
 // server settings
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || '8080';
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
+var server_port = '8888';
+var server_ip_address = '0.0.0.0';
 
 var server = restify.createServer({
   name: 'Inside-HPD-Data'
