@@ -44,7 +44,8 @@ html(lang='en')
             p
               a(href='#') Investigating HPD data
           li
-            a(href='#info') Information
+            a(href='#info') Info
+            rmation
           li
             a(href='#table') Table
           li
@@ -84,7 +85,7 @@ html(lang='en')
                     th Zip
                     th Number of Registrations (~buildings)
                     th Unique Corporations Registered
-          include search.jade
+          include search.pug
           .row
             .col-lg-10
               a(name='results')
@@ -110,7 +111,7 @@ html(lang='en')
               p Source code #[a(href="http://github.com/aepyornis/hpd") available here]. Made with love and support from #[a(href="http://thelearningcollective.nyc") The Learning Collective]
               p <strong>NOTICE:</strong> this website may only be used for good and not evil. Use by real-estate or for any profit-making purpose is not permitted! 
     // popup
-    include popup.jade
+    include popup.pug
     // Menu Toggle Script
     script.
       $("#menu-toggle").click(function(e) {

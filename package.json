@@ -11,13 +11,15 @@
   },
   "devDependencies": {
     "mocha": "^2.4.5",
+    "pug-cli": "^1.0.0-alpha1",
     "should": "^7.1.1",
     "superagent": "^1.4.0",
     "underscore": "^1.8.3"
   },
   "scripts": {
     "test": "mocha server.spec.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "pug": "pug -o html/ html/index.pug"
   },
   "repository": {
     "type": "git",
