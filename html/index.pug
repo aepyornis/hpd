@@ -9,7 +9,7 @@ html(lang='en')
     title NYC Landlords In HPD data
     // Bootstrap Core CSS
     link(href='css/bootstrap.min.css', rel='stylesheet')
-    //datatables + datatables select
+    //danntatables + datatables select
     link(href='web/jquery.dataTables.min.css', rel='stylesheet')
     link(href='web/select.dataTables.min.css', rel='stylesheet')
     // leaflet CSS
@@ -33,70 +33,38 @@ html(lang='en')
   body
     //script(src='js/ui.js')
     script(src='js/util.js')
+    script(src='js/util.js')
     script(src='js/map.js')
     script(src='js/address_search.js')
     script(src='js/main.js')
     #wrapper
-      // Sidebar
-      #sidebar-wrapper
-        ul.sidebar-nav
-          li.sidebar-brand
-            p
-              a(href='#') Investigating HPD data
-          li
-            a(href='#info') Info
-            rmation
-          li
-            a(href='#table') Table
-          li
-            a(href='#lookup') Landlord Lookup
-          li
-            a(href='#results') Results
-          li
-            a(href='#violations') Violations
-          li
-            a(href='#contact') Contact
-      // /#sidebar-wrapper
-      // Page Content
+      include sidebar.pug
       #page-content-wrapper
         .container-fluid
           .row
             .col-lg-12
-              a(name='info')
               h1 Large Corporate Landlords Hidden in HPD data
-              p
-                | New York City law requires that all owners of residential buildings with 3+ units #[a(href="http://www1.nyc.gov/site/hpd/owners/compliance-register-your-property.page") register with HPD] (Department of Housing, Preservation, and Development). These registrations are used by HPD to issue violations and track complaints. Although "official" parcel ownership data can be found in a different city database, #[a(href="http://a836-acris.nyc.gov/CP/") ACRIS], the owners listed on HPD registrations are still frequently used by government agencies and they contain valuable information about NYC landlords. If a tenant decides to sue their landlord in housing court, the court considers HPD registration to be a valid determination of ownership.
-              p
-                | It is common practice for large property owners and landlords to use an individual LLC or corporation for each building they own (this is not illegal). Accordingly, if one landlord owns 40 buildings, the landlord will typically register each building separately, under the legal entity that owns each individual building. This makes it difficult to know who are the largest property owners.
-              p Each "corporate owner" registration must include a business address; it's often the address where tenants send their rent to. I have linked together all those addresses that are in common to locate corporations registered to the same address. Although it's technically feasible for multiple businesses to share the same address, it is highly likely that each one of these addresses represents a single corporate entity. Accordingly, in the tables below, you won't find a single "corporation" name.
-              p This website helps to solve the <em>LLC problem</em> as some tenant advocates and housing researchers call it. The table allow you to peek at who are NYC's biggest corporate landlords and which properties they own. 
-              p Number of registrations = roughly equivalent to the total number of buildings registered to that address. 'Garden complexes', including multi-building complexes (typically coops) are considered a single building here.
-              p Unique Corporations Registered = the number of 'unique' corporation names registered at that address
-              p <strong>Click on an address to see a list of corporation names registered and map of their properties</strong>
-              p <small>You may have to wait 5-10 seconds to see the properties show up on the map</small>
+              p.subtitle This website helps to solve the <em>LLC problem</em> as some tenant advocates and housing researchers call it. <br> The table allow you to peek at who are NYC's biggest corporate landlords and which properties they own. <br> It links LLCs through a common bussiness address.
+              p.subtitle <strong>Click on an address to see a list of corporation names registered and map of their properties</strong><br><small>You may have to wait 5-10 seconds to see the properties show up on the map</small>
           .row
-            a(name='table')
             .col-lg-12
-              h4.text-center 500 Largest Corporate Owners
-              table#top500-table.display(cellspacing='0')
-                thead
-                  tr
-                    th Corporate Address
-                    th Zip
-                    th Number of Registrations (~buildings)
-                    th Unique Corporations Registered
+            a(name='table')
+            h4.text-center 500 Largest Corporate Owners
+            table#top500-table.display(cellspacing='0')
+              thead
+                tr
+                  th Corporate Address
+                  th Zip
+                  th Number of Registrations (~buildings)
+                  th Unique Corporations Registered
           include search.pug
           .row
-            .col-lg-10
+            .col-lg-12
+              a(name='info')
+              h2 Information
+              include text.pug
               a(name='results')
-              h2 Some interesting results:
-              h4 Prudential Douglas Elliman (675 Third Avenue)
-              p This company is one of NYC's largest, owns at least 372.
-              h4 Blackstone only has 19? (345 Park Avenue)
-              p Blackstone -- the malevolent mega-landlord who just purchased Stuy-Town -- only shows 19 properties registered at their HQ, 345 Park Avenue. Perhaps they focus their attention to other cities or don't register their buildings in this manner?
-              h4 277 Classon Ave
-              p Exactly who this is I don't know yet, but they are clearly a major player in Brooklyn Real Estate with 119 buildings.
-              h2 More results to come!
+              include results.pug
           .row
             .col-lg-10
               a(name='violations')
@@ -106,8 +74,8 @@ html(lang='en')
             .col-lg-10
               a(name='contact')
               h4 Contact
+              p See more (anti) real-state research websites here: #[a(href="https://nycchr.org") NYC Critical Housing Research]
               p Contact Ziggy, the site's creator, at ziggy[at]elephant-bird.net
-              p View Ziggy's other real-estate research sites: #[a(href="http://www.bushwickcommunitymap.org") Bushwick Community Map] and #[a(href="http://dobjobs.org") DOB Jobs]
               p Source code #[a(href="http://github.com/aepyornis/hpd") available here]. Made with love and support from #[a(href="http://thelearningcollective.nyc") The Learning Collective]
               p <strong>NOTICE:</strong> this website may only be used for good and not evil. Use by real-estate or for any profit-making purpose is not permitted! 
     // popup
@@ -118,3 +86,4 @@ html(lang='en')
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
       });
+

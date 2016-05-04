@@ -19,7 +19,8 @@
   "scripts": {
     "test": "mocha server.spec.js",
     "start": "node server.js",
-    "pug": "pug -o html/ html/index.pug"
+    "pug": "pug -o html/ html/index.pug",
+    "pug-watch": "pug --watch -o html/ html/index.pug"
   },
   "repository": {
     "type": "git",

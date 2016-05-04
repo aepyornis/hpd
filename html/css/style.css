@@ -124,6 +124,10 @@
   overflow: scroll;
 }
 
+.subtitle {
+  padding-right: 25%;
+}
+
 /* CSS styled after: */
 /*!
  * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
