@@ -1,9 +1,11 @@
-var restify = require('restify');
-var fs = require('fs');
-var pg = require('pg');
-var async = require('async');
-var _ = require('lodash');
-var config = require('./config');
+'use strict';
+
+const restify = require('restify');
+const fs = require('fs');
+const pg = require('pg');
+const async = require('async');
+const _ = require('lodash');
+const config = require('./config');
 
 // db settings
   pg.defaults.database =  'hpd';
@@ -14,19 +16,19 @@ var config = require('./config');
   // pg.defaults.port;
 
 // server settings
-var server_port = '8888';
-var server_ip_address = '0.0.0.0';
+const server_port = '8888';
+const server_ip_address = '0.0.0.0';
 
-var server = restify.createServer({
+const server = restify.createServer({
   name: 'Inside-HPD-Data'
 });
 
 server.listen(server_port, server_ip_address);
 
 // this functions runs for all requests
-server.use(function(req, res, next){
-  return next();
-});
+//server.use(function(req, res, next){
+//  return next();
+//});
 
 ///////////
 //routes//
@@ -72,6 +74,7 @@ server.get('/id/corpnames/:id', function(req, res, next){
     next();
   });
 });
+
 
 // list of buildings of hpd.corporate_owners by hpd.corporate_owners id
 server.get('/id/buildings/:id', function(req, res, next){
@@ -119,41 +122,25 @@ function get_buildings_latlng(id, callback){
 
 
 function get_corporate_owner_lat_lng (id, callback) {
-  var query = "SELECT lat, lng FROM hpd.corporate_owners WHERE id = $1";
-  var a = [];
-  a.push(Number(id));
-  do_query(query, a, callback);
-}
-
-// not currently used -- static file read instead
-function retrive_corporate_owners_json(fileName, callback) {
-  fs.readFile(fileName, 'utf8', function(err, data){
-    if (err) throw Error;
-    callback(JSON.parse(data));
-  });
+  const query = "SELECT lat, lng FROM hpd.corporate_owners WHERE id = $1";
+  do_query(query, [Number(id)], callback);
 }
 
 function get_corporate_names(id, callback) {
-  var query = "SELECT uniqnames FROM hpd.corporate_owners WHERE id=$1";
-  var a = [];
-  a.push(Number(id));
-  do_query(query, a, callback);
+  const query = "SELECT uniqnames FROM hpd.corporate_owners WHERE id=$1";
+  do_query(query, [Number(id)], callback);
 }
 
 function get_buildings_by_id(id, callback) {
-  var query = "SELECT corporate_owner.regid as regid, r.housenumber as h, r.streetname as st, r.zip as zip, r.boro as b, r.lat as lat, r.lng as lng, r.bbl as bbl, corporationname as corp FROM (SELECT  DISTINCT unnest(regids) as regid FROM hpd.corporate_owners WHERE id = $1) as corporate_owner JOIN (SELECT * FROM hpd.contacts WHERE registrationcontacttype = 'CorporateOwner') as c on corporate_owner.regid = c.registrationid JOIN hpd.registrations_grouped_by_bbl as r on corporate_owner.regid = r.registrationid";
-  var a = [];
-  a.push(Number(id));
-  do_query(query, a, callback);
+  const query = "SELECT corporate_owner.regid as regid, r.housenumber as h, r.streetname as st, r.zip as zip, r.boro as b, r.lat as lat, r.lng as lng, r.bbl as bbl, corporationname as corp FROM (SELECT  DISTINCT unnest(regids) as regid FROM hpd.corporate_owners WHERE id = $1) as corporate_owner JOIN (SELECT * FROM hpd.contacts WHERE registrationcontacttype = 'CorporateOwner') as c on corporate_owner.regid = c.registrationid JOIN hpd.registrations_grouped_by_bbl as r on corporate_owner.regid = r.registrationid";
+  do_query(query, [Number(id)], callback);
 }
 
 // change from ILIKE to fullcaps?
 function corporate_name_search(name, callback) {
-  var query = "SELECT id FROM hpd.corporate_owners where $1 ILIKE ANY(uniqnames)";
-  var a = [];
-  var prepared_name = '%' + name + '%';
-  a.push(prepared_name);
-  do_query(query, a, callback);
+  const query = "SELECT id FROM hpd.corporate_owners where $1 ILIKE ANY(uniqnames)";
+  const prepared_name = '%' + name + '%';
+  do_query(query, [prepared_name], callback);
 }
 
 //address search
@@ -163,7 +150,7 @@ function corporate_name_search(name, callback) {
 {
   regid: 12324,
   corporationname: 'blah LLC',
-  ownerID: 444,
+  id: 444,
   buildingcount: number
   uniqnames: [text],
   businesshousenumber: '345'
@@ -176,10 +163,11 @@ function corporate_name_search(name, callback) {
 function address_search(address, bor, callback) {
   // parse the address
   var add = /(\d+(?:-\d+)?)[ ](.+)/.exec(address);
-  var house = add[1];
-  var street = normalize_street_name(add[2]);
-  
-  //this is an async query that returns with the regid for the address searched
+  if (add) {
+    var house =  add[1];
+    var street =  normalize_street_name(add[2]);
+  }
+  //this is an async query that returns the regid for the address searched
   get_regid_for_address(house, street, bor, function(pgdata){
     if (pgdata.rowCount === 0) {
       //handle address not in database
@@ -192,26 +180,19 @@ function address_search(address, bor, callback) {
   });
 }
   
-// do two SQL queries in parallel, searching the hpd.contacts table for the corporation_name and retrieving info from the hpd.corporate_owners table
+// do two SQL queries in parallel
+// searching the hpd.contacts table for the corporation_name and 
+// retries info from the hpd.corporate_owners table
 function parallel_query_abettor(regid, whendone) {
   async.parallel([
     function corpname(callback) {
-      get_corporation_name_for_regid(regid, function(pgdata){
-        if (pgdata.rowCount === 0) {
-          callback(null, null);
-        } else {
-          callback(null, pgdata.rows[0]);
-        }
-         
+      get_corporation_name_for_regid(regid, (pgdata) => {
+        (pgdata.rowCount === 0) ? callback(null, null) :  callback(null, pgdata.rows[0]);
       });
     },
     function corpinfo(callback) {
-      get_corporate_owner_info_for_regid(regid, function(pgdata){
-        if (pgdata.rowCount === 0) {
-          callback(null, null);
-        } else {
-          callback(null, pgdata.rows[0]);
-        }
+      get_corporate_owner_info_for_regid(regid, pgdata => {
+        (pgdata.rowCount === 0) ? callback(null, null) : callback(null, pgdata.rows[0]);
       });
     }
   ],
@@ -232,43 +213,38 @@ function parallel_query_abettor(regid, whendone) {
   
 // parse street name
 function normalize_street_name(street) {
-  //remove periods
-  var normalized = street
-        .toUpperCase()
-        .replace(/\./g,'')
-        .replace(/ (?:LA|LN)( (?:S|N|E|W).*)?$/g, ' LANE$1')
-        .replace(/ PL( (?:S|N|E|W).*)?$/g, ' PLACE$1')
-        .replace(/ (?:ST|STR)( (?:S|N|E|W).*)?$/g, ' STREET$1')
-        .replace(/ RD( (?:S|N|E|W).*)?$/g, ' ROAD$1')
-        .replace(/ PKWY( (?:S|N|E|W).*)?$/g, ' PARKWAY$1')
-        .replace(/ BLVD( (?:S|N|E|W).*)?$/g, ' BOULEVARD$1')
-        .replace(/ AVE( (?:S|N|E|W).*)?$/g, ' AVENUE$1')
-        .replace(/ BCH /g, ' BEACH ')
-        .replace(/^(.+ )S$/, '$1SOUTH')
-        .replace(/^(.+ )E$/, '$1EAST')
-        .replace(/^(.+ )N$/, '$1NORTH')
-        .replace(/^(.+ )W$/, '$1WEST')
-        .replace(/(\d+)(?:TH|RD|ND|ST)( .+)/g, '$1$2');
-  return normalized;
+  return street
+    .toUpperCase()
+    .replace(/\./g,'')
+    .replace(/ (?:LA|LN)( (?:S|N|E|W).*)?$/g, ' LANE$1')
+    .replace(/ PL( (?:S|N|E|W).*)?$/g, ' PLACE$1')
+    .replace(/ (?:ST|STR)( (?:S|N|E|W).*)?$/g, ' STREET$1')
+    .replace(/ RD( (?:S|N|E|W).*)?$/g, ' ROAD$1')
+    .replace(/ PKWY( (?:S|N|E|W).*)?$/g, ' PARKWAY$1')
+    .replace(/ BLVD( (?:S|N|E|W).*)?$/g, ' BOULEVARD$1')
+    .replace(/ AVE( (?:S|N|E|W).*)?$/g, ' AVENUE$1')
+    .replace(/ BCH /g, ' BEACH ')
+    .replace(/^(.+ )S$/, '$1SOUTH')
+    .replace(/^(.+ )E$/, '$1EAST')
+    .replace(/^(.+ )N$/, '$1NORTH')
+    .replace(/^(.+ )W$/, '$1WEST')
+    .replace(/(\d+)(?:TH|RD|ND|ST)( .+)/g, '$1$2');
 }
 
 // address search queries
 // input: strings
 function get_regid_for_address(house, street, bor, callback) {
-  var query = "SELECT registrationid as regid from hpd.registrations where housenumber = $1 AND streetname = $2 AND boroid = $3";
-  var values = [house, street, bor];
-  do_query(query, values, callback);
-  // regid is available at result.rows[0].regid
-}
+  const query = "SELECT registrationid as regid from hpd.registrations where housenumber = $1 AND streetname = $2 AND boroid = $3";
+  do_query(query, [house, street, bor], callback);
+}  // regid is available at result.rows[0].regid
 
 function get_corporation_name_for_regid(regid, callback){
-  var query = "select corporationname from hpd.contacts where registrationcontacttype = 'CorporateOwner' and registrationid = $1";
-  var values = [regid];
-  do_query(query, values, callback);
+  const query = "select corporationname from hpd.contacts where registrationcontacttype = 'CorporateOwner' and registrationid = $1";
+  do_query(query, [regid], callback);
 }
 
 function get_corporate_owner_info_for_regid(regid, callback) {
-  var query = "SELECT id,  array_length(anyarray_uniq(regids), 1) as buildingcount, uniqnames, businesshousenumber, businessstreetname, businesszip FROM hpd.corporate_owners WHERE $1 = ANY(regids)";
+  const query = "SELECT id,  array_length(anyarray_uniq(regids), 1) as buildingcount, uniqnames, businesshousenumber, businessstreetname, businesszip FROM hpd.corporate_owners WHERE $1 = ANY(regids)";
   do_query(query, [regid], callback);
 }
 
@@ -303,5 +279,3 @@ module.exports = {
   get_corporate_names: get_corporate_names,
   normalize_street_name: normalize_street_name
 };
-
-
