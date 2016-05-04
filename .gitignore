@@ -6,3 +6,4 @@ node_modules
 secrets.txt
 geocode/venv
 *.pyc
+config.js

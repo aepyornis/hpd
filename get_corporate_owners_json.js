@@ -4,11 +4,7 @@ var fs = require('fs');
 var pg = require('pg');
 var config = require('./config');
 
-if (process.env.OPENSHIFT_POSTGRESQL_DB_URL) {
-  var conString = process.env.OPENSHIFT_POSTGRESQL_DB_URL + "/hpd";
-} else {
-  var conString = "postgres://" + config.pg.user + ":" + config.pg.password +"@localhost/" + config.pg.database;
-}
+var conString = "postgres://" + config.pg.user + ":" + config.pg.password +"@localhost/" + config.pg.database;
 
 var client = new pg.Client(conString);
 
