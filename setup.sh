@@ -63,6 +63,11 @@ psql -d ${HPD_DATABASE} -f 'sql/index.sql'
 printf 'Installing NPM modules\n'
 npm install pg restify async lodash
 
+printf 'Setting db permissions\n'
+DB_USER=$(node -e "var c = require('./config.js'); console.log(c.pg.user)")
+psql -d ${HPD_DATABASE} -c "GRANT USAGE ON SCHEMA hpd TO ${DB_USER}"
+psql -d ${HPD_DATABASE} -c "GRANT SELECT ON ALL TABLES IN SCHEMA hpd TO ${DB_USER}"
+
 printf 'Creating top500.txt file\n'
 mkdir -p html/data
 node get_corporate_owners_json.js 
