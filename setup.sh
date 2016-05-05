@@ -1,9 +1,10 @@
 #!/bin/bash
 
-HPD_DATABASE="hpd"
+set -e
 
-HPD_REGISTRATIONS_FILE="path/to/registrations.txt"
-HPD_CONTACTS_FILE="path/to/contacts.txt"
+HPD_DATABASE=$(node -e "var c = require('./config.js'); console.log(c.pg.database)")
+HPD_REGISTRATIONS_FILE=$(node -e "var c = require('./config.js'); console.log(c.data.registrations)")
+HPD_CONTACTS_FILE=$(node -e "var c = require('./config.js'); console.log(c.data.contacts)")
 
 mkdir -p tmp
 printf "Cleaning the data\n"
@@ -18,8 +19,6 @@ HPD_CONTACTS_FILE=$(pwd)/tmp/contacts.txt
 
 # create the database if needed
 # createdb hpd
-
-set -e
 
 printf 'create table and COPY data\n'
 psql -d ${HPD_DATABASE} -f 'sql/schema.sql'
@@ -73,4 +72,3 @@ npm install pg restify async lodash
 printf 'Creating top500.txt file\n'
 mkdir -p html/data
 node get_corporate_owners_json.js 
-
