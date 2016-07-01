@@ -61,7 +61,7 @@ printf 'Indexing tables\n'
 psql -d ${HPD_DATABASE} -f 'sql/index.sql'
 
 printf 'Installing NPM modules\n'
-npm install pg restify async lodash
+npm install
 
 printf 'Setting db permissions\n'
 DB_USER=$(node -e "var c = require('./config.js'); console.log(c.pg.user)")
