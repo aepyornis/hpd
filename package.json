@@ -4,9 +4,9 @@
   "description": "Corporate Owners Hidden in HPD data",
   "main": "server.js",
   "dependencies": {
-    "async": "^1.5.0",
-    "lodash": "^4.13.1",
-    "pg": "^6.0.1",
+    "async": "^2.0.1",
+    "lodash": "^4.15.0",
+    "pg": "^6.1.0",
     "restify": "^4.1.1"
   },
   "devDependencies": {

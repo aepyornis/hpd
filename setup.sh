@@ -54,7 +54,7 @@ psql -d ${HPD_DATABASE} -f 'sql/corporate_owners.sql'
 printf 'Geocodes registrations via pluto\n'
 psql -d ${HPD_DATABASE} -f 'sql/registrations_geocode.sql'
 
-printf 'Creating view registrations_grouped_by_bbl\n'
+printf 'Creating table registrations_grouped_by_bbl\n'
 psql -d ${HPD_DATABASE} -f 'sql/registrations_grouped_by_bbl.sql'
 
 printf 'Indexing tables\n'
