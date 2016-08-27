@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  var table = $('#top500-table').DataTable( {
-    "ajax": "data/top500.txt",
+  var table = $('#top1000-table').DataTable( {
+    "ajax": "data/top1000.txt",
     "columns": [
       { "data": "a" },
       { "data": "zip" },
