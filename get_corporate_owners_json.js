@@ -18,7 +18,7 @@ var client = new pg.Client(conString);
 //var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, numberofcontacts as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY numberofcontacts DESC LIMIT 500";
 
 // this treats garden complexes as a single one. 
-var query = "SELECT businesshousenumber || ' ' || businessstreetname as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM hpd.corporate_owners ORDER BY num DESC LIMIT 1000";
+var query = "SELECT businesshousenumber || ' ' || businessstreetname || (case when businessapartment is not null then ' ' || businessapartment else '' end) as a, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM hpd.corporate_owners ORDER BY num DESC LIMIT 1000";
 
 //var geocode_query = "SELECT businesshousenumber as house, businessstreetname as street, businesszip as zip, array_length(anyarray_uniq(regids), 1) as num, id, array_length(uniqnames, 1) as nc FROM corporate_owners ORDER BY num DESC LIMIT 500";
 

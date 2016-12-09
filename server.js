@@ -8,12 +8,13 @@ const _ = require('lodash');
 const config = require('./config');
 
 // db settings
-  pg.defaults.database =  'hpd';
-  pg.defaults.host = 'localhost';
-  pg.defaults.user = config.pg.user;
-  pg.defaults.password = config.pg.password;
-  // change default port here if need to
-  // pg.defaults.port;
+pg.defaults.database =  config.pg.database;
+pg.defaults.host = config.pg.host;
+pg.defaults.user = config.pg.user;
+pg.defaults.password = config.pg.password;
+if (config.pg.port) {
+  pg.defaults.port = config.pg.port;
+}
 
 // server settings
 const server_port = '8888';
