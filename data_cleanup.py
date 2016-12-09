@@ -7,8 +7,9 @@ Fixes some problems that occur in HPD data:
 
 The "Registrations" file has 16 columns.
 The "Contacts" file has 15 columns.
-
 This applies to the most recent version. Older files may have different number of columns.
+
+NOTE: due to some unicode issue, this only seems to work properly with python2 not python3
 
 """
 import sys
@@ -20,4 +21,3 @@ for line in sys.stdin.readlines():
         sys.stdout.write(row)
     else:
         sys.stderr.write(row)
-        
