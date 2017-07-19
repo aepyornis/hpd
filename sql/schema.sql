@@ -1,12 +1,11 @@
 BEGIN;
 
-CREATE SCHEMA IF NOT EXISTS hpd;
 
-drop table if EXISTS hpd.contacts;
-drop table if EXISTS hpd.registrations;
-DROP TABLE IF EXISTS hpd.bbl_lookup;
+drop table if EXISTS hpd_contacts;
+drop table if EXISTS hpd_registrations;
+DROP TABLE IF EXISTS hpd_bbl_lookup;
 
-create table IF NOT EXISTS hpd.registrations (
+create table IF NOT EXISTS hpd_registrations (
        registrationID integer,
        buildingID integer,
        boroID smallint,
@@ -25,7 +24,7 @@ create table IF NOT EXISTS hpd.registrations (
        registrationenddate date
 );
 
-create table IF NOT EXISTS hpd.contacts (
+create table IF NOT EXISTS hpd_contacts (
        registrationcontactID integer,
        registrationID integer,
        registrationcontacttype text,
@@ -43,7 +42,7 @@ create table IF NOT EXISTS hpd.contacts (
        BusinessZip text
 );
 
-CREATE TABLE IF NOT EXISTS hpd.bbl_lookup (
+CREATE TABLE IF NOT EXISTS hpd_bbl_lookup (
        lat numeric,
        lng numeric,
        bbl text PRIMARY KEY
