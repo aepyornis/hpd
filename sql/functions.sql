@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS get_corporate_owner_info_for_regid(int);
 
-CREATE OR REPLACE FUNCTION get_corporate_owner_info_for_regid(int)
+CREATE OR REPLACE FUNCTION get_corporate_owner_info_for_regid(regid int)
 RETURNS TABLE (id int, buildingscount int, uniqnames text[], businesshousenumber text, businessstreetname text, businesszip text) AS $$
       SELECT id,
       	     array_length(anyarray_uniq(regids), 1) as buildingcount,
@@ -8,5 +8,5 @@ RETURNS TABLE (id int, buildingscount int, uniqnames text[], businesshousenumber
 	     businesshousenumber,
 	     businessstreetname,
 	     businesszip
-      FROM hpd_corporate_owners WHERE $1 = ANY(regids)
+      FROM hpd_corporate_owners WHERE get_corporate_owner_info_for_regid.regid = ANY(regids)
 $$ LANGUAGE SQL;
