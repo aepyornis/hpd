@@ -65,7 +65,9 @@ RETURNS TABLE (
   lat numeric,
   lng numeric,
   regid int,
-  bbl text
+  bbl text,
+  corpnames text[],
+  ownernames json
 ) AS $$
   SELECT
     housenumber,
@@ -75,8 +77,10 @@ RETURNS TABLE (
     lat,
     lng,
     regid,
-    bbl
-  FROM hpd_registrations_grouped_by_bbl AS r
+    bbl,
+    corpnames,
+    ownernames
+  FROM hpd_registrations_grouped_by_bbl_with_contacts AS r
   INNER JOIN (
     SELECT unnest(string_to_array(_regids, ','))::int AS regid
   ) regids ON (r.registrationid = regids.regid)
