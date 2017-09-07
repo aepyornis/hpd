@@ -2,7 +2,7 @@ UPDATE hpd_registrations SET streetname = regexp_replace( streetname, ' AVE$|-AV
 
 
 -- unsure what to do about the conflict with streets?
---UPDATE registrations SET streetname = regexp_replace( streetname, '^ST.? ', 'SAINT ', 'g') WHERE streetname ~  '^ST.? .*';
+UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^ST.? ', 'SAINT ', 'g') WHERE streetname ~  '^ST.? .*';
 
 -- remove periods
 
@@ -29,7 +29,7 @@ UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^BCH ', '
 UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^E ', 'EAST ');
 UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^W ', 'WEST ');
 UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^N ', 'NORTH ');
-UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^S ', 'SOUTH '); 
+UPDATE hpd_registrations SET streetname = regexp_replace( streetname, '^S ', 'SOUTH ');
 
 --UPDATE registrations SET BusinessApartment = regexp_replace( BusinessApartment, '_|\.', '', 'g');
 
